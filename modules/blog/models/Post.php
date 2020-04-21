@@ -1,0 +1,252 @@
+<?php
+
+namespace modules\blog\models;
+
+use common\helpers\StringHelper;
+use common\models\MActiveRecord;
+use common\models\User;
+use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
+/**
+ * This is the model class for table "blog_post".
+ *
+ * @property string $id
+ * @property string $slug
+ * @property string $name
+ * @property string $intro
+ * @property string $text
+ * @property string $title
+ * @property string $keywords
+ * @property string $description
+ * @property int $views
+ * @property int $author_id
+ * @property int $category_id
+ * @property string $image_preview
+ * @property string $image
+ * @property array $tagsArr
+ * @property string $created_at
+ * @property string $updated_at
+ * @property int $status
+ * @property int allow_comments
+ * @property int $sort
+ * @property boolean $to_main
+ * @property boolean $to_letter
+ *
+ * @property Comment[] $comments
+ * @property Comment $rootComment
+ * @property BlogCategory $category
+ * @property User $author
+ * @property PostTag[] $postTags
+ * @property Tag[] $tags
+ * @property string|null $categoryName
+ */
+class Post extends MActiveRecord
+{
+    const STATUS_ACTIVE = 1;
+    const STATUS_DISABLED = 0;
+    const STATUS_DELETED = 2;
+
+    const STATUS_LIST = [
+        self::STATUS_DISABLED => 'Отключен',
+        self::STATUS_ACTIVE   => 'Активен'
+    ];
+
+    private $_url;
+
+    public function getUrl()
+    {
+        if ($this->_url === null)
+            $this->_url = Url::to('@web/blog/' . $this->slug);
+        return $this->_url;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'blog_post';
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'slug' => [
+                'class'         => 'Zelenin\yii\behaviors\Slug',
+                'slugAttribute' => 'slug',
+                'attribute'     => 'name',
+                'ensureUnique'  => true,
+                'replacement'   => '-',
+                'lowercase'     => true,
+                'immutable'     => true,
+            ]
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['name', 'text', 'author_id'], 'required'],
+            [['text'], 'string'],
+            [['author_id', 'category_id', 'status', 'sort', 'views'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['slug', 'name', 'title', 'keywords', 'description'], 'string', 'max' => 255],
+            [['intro'], 'string', 'max' => 1000],
+            [['slug'], 'unique'],
+            [['allow_comments', 'parsed', 'to_main', 'to_letter'], 'boolean'],
+            [['tagsArr'], 'safe'],
+            [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author_id' => 'id']],
+            [['image', 'image_preview'], 'image'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id'             => 'ID',
+            'slug'           => 'Slug',
+            'category_id'    => 'Категория',
+            'name'           => 'Название',
+            'intro'          => 'Вступление',
+            'text'           => 'Текст',
+            'views'          => 'Просмотров',
+            'title'          => 'Seo title',
+            'keywords'       => 'Seo keywords',
+            'description'    => 'Seo description',
+            'author_id'      => 'Автор',
+            'image_preview'  => 'Картинка превью',
+            'image'          => 'Картинка внутри статьи',
+            'created_at'     => 'Добавлен',
+            'updated_at'     => 'Обновлен',
+            'status'         => 'Статус',
+            'sort'           => 'Сортировка',
+            'tags'           => 'Теги',
+            'to_main'        => 'На главную',
+            'to_letter'      => 'В письмо',
+            'allow_comments' => 'Комментарии',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return PostQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new PostQuery(get_called_class());
+    }
+
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        if (!$comment = Comment::findOne(['post_id' => $this->id, 'lft' => 1])) {
+            $comment = new Comment(['post_id' => $this->id, 'name' => 'root', 'status' => 0, 'ip' => '127.0.0.1']);
+            $comment->makeRoot();
+            if (!$comment->save()) {
+                var_dump($comment->name);
+                var_dump($comment->errors);
+                die;
+            }
+        }
+        parent::afterSave($insert, $changedAttributes); // TODO: Change the autogenerated stub
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getComments()
+    {
+        return $this->hasMany(Comment::className(), ['post_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getAuthor()
+    {
+        return $this->hasOne(User::className(), ['id' => 'author_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(BlogCategory::className(), ['id' => 'category_id']);
+    }
+
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getPostTags()
+    {
+        return $this->hasMany(PostTag::className(), ['post_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->via('postTags');
+    }
+
+    /**
+     * @param $tags
+     */
+    public function updateTags($tags)
+    {
+        $oldTags = ArrayHelper::map($this->tags, 'name', 'id');
+        $tagsToInsert = array_diff($tags, $oldTags);
+        $tagsToDelete = array_diff($oldTags, $tags);
+        PostTag::deleteAll(['and', ['post_id' => $this->id], ['tag_id' => $tagsToDelete]]);
+        foreach ($tagsToInsert as $ins) {
+            if (intval($ins) == $ins) {
+                $tag = Tag::findOne(['id' => $ins]);
+            } else {
+                $tag = Tag::findOne(['name' => mb_strtolower(Html::encode($ins))]);
+            }
+            if (!$tag) {
+                $tag = new Tag();
+                $tag->name = mb_strtolower($ins);
+                $tag->slug = StringHelper::translitString($tag->name);
+                $tag->save();
+            }
+            $postTag = new PostTag(['post_id' => $this->id, 'tag_id' => $tag->id]);
+            $postTag->save();
+        }
+    }
+
+    /**
+     * @return Comment|null
+     */
+    public function getRootComment()
+    {
+        return Comment::findOne(['post_id' => $this->id, 'depth' => 0]);
+    }
+
+    public function getCategoryName()
+    {
+        $category = $this->category;
+        if (!$category || in_array($category->name, ['Корневая категория', 'Без категории'])) {
+            return '';
+        }
+        return $category->name;
+    }
+}

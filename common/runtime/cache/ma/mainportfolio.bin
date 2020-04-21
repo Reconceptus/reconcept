@@ -1,0 +1,133 @@
+a:2:{i:0;s:8695:"<div class="home-portfolio portfolio">
+    <div class="content content--lg">
+        <div class="portfolio-section">
+            <div class="portfolio-grid">
+                <ul>
+                                            <li>
+                            <a href="/brending-interfeysy-dizajn-servisa-neyrosemantika" class="item">
+                                <figure class="item-img">
+                                    <img src="/uploads/images/Portfolio/190801093039/1564651839_HN.jpg"
+                                         alt="neuro-semantic.ru">
+                                </figure>
+                                <section class="item-brief">
+                                    <div class="item-arrow"></div>
+                                    <div class="item-data">
+                                        <h3 class="item-title">neuro-semantic.ru</h3>
+                                        <div class="item-subtitle">Брендинг и интерфейсы уникального сервиса классификации текстов</div>
+                                    </div>
+                                </section>
+                            </a>
+                        </li>
+                                            <li>
+                            <a href="/sozdanie-internet-magazina-arplans" class="item">
+                                <figure class="item-img">
+                                    <img src="/uploads/images/Portfolio/190315060704/1552630024_06.jpg"
+                                         alt="Арпланс">
+                                </figure>
+                                <section class="item-brief">
+                                    <div class="item-arrow"></div>
+                                    <div class="item-data">
+                                        <h3 class="item-title">Арпланс</h3>
+                                        <div class="item-subtitle">Интернет-магазин с нуля на Yii2. С партнёрским API и реферальной системой.</div>
+                                    </div>
+                                </section>
+                            </a>
+                        </li>
+                                            <li>
+                            <a href="/sozdanie-sajta-dla-magnitogorskogo-proekta-kilometry-dobra" class="item">
+                                <figure class="item-img">
+                                    <img src="/uploads/images/Portfolio/190813084929/1565686169_sH.jpg"
+                                         alt="Километры добра">
+                                </figure>
+                                <section class="item-brief">
+                                    <div class="item-arrow"></div>
+                                    <div class="item-data">
+                                        <h3 class="item-title">Километры добра</h3>
+                                        <div class="item-subtitle">Сервис для благотворительных акций</div>
+                                    </div>
+                                </section>
+                            </a>
+                        </li>
+                                            <li>
+                            <a href="/sozdanie-sayta-uk-property-advisors-london" class="item">
+                                <figure class="item-img">
+                                    <img src="/uploads/images/Portfolio/190315060128/1552629688_8P.jpg"
+                                         alt="UK Property Advisors Ltd">
+                                </figure>
+                                <section class="item-brief">
+                                    <div class="item-arrow"></div>
+                                    <div class="item-data">
+                                        <h3 class="item-title">UK Property Advisors Ltd</h3>
+                                        <div class="item-subtitle">Сайт для продажи элитной недвижимости в Лондоне от £680 тыс</div>
+                                    </div>
+                                </section>
+                            </a>
+                        </li>
+                                            <li>
+                            <a href="/sozdaniye-sayta-heron-lite" class="item">
+                                <figure class="item-img">
+                                    <img src="/uploads/images/Portfolio/190606144317/1559832197_Nt.jpg"
+                                         alt="HERON Lite">
+                                </figure>
+                                <section class="item-brief">
+                                    <div class="item-arrow"></div>
+                                    <div class="item-data">
+                                        <h3 class="item-title">HERON Lite</h3>
+                                        <div class="item-subtitle">Сайт для продажи прибора за 4,5 млн ₽. Это дорого даже для геодезии!</div>
+                                    </div>
+                                </section>
+                            </a>
+                        </li>
+                                            <li>
+                            <a href="/fotossesia-hleba-dla-eda-yandex" class="item">
+                                <figure class="item-img">
+                                    <img src="/uploads/images/Portfolio/200227104436/1582800276_Jv.jpg"
+                                         alt="Реклама хлеба «Брецель» для Яндекс.Еда">
+                                </figure>
+                                <section class="item-brief">
+                                    <div class="item-arrow"></div>
+                                    <div class="item-data">
+                                        <h3 class="item-title">Реклама хлеба «Брецель» для Яндекс.Еда</h3>
+                                        <div class="item-subtitle">Резали, рвали и фотографировали хлеб</div>
+                                    </div>
+                                </section>
+                            </a>
+                        </li>
+                                            <li>
+                            <a href="/sozdaniye-sayta-rock-mechanics-and-simulation" class="item">
+                                <figure class="item-img">
+                                    <img src="/uploads/images/Portfolio/190731131106/1564578666_Yu.jpg"
+                                         alt="Rock Mechanics and Simulation">
+                                </figure>
+                                <section class="item-brief">
+                                    <div class="item-arrow"></div>
+                                    <div class="item-data">
+                                        <h3 class="item-title">Rock Mechanics and Simulation</h3>
+                                        <div class="item-subtitle">Корпоративный сайт</div>
+                                    </div>
+                                </section>
+                            </a>
+                        </li>
+                                            <li>
+                            <a href="/sozdanie-saita-orway-italy" class="item">
+                                <figure class="item-img">
+                                    <img src="/uploads/images/Portfolio/190315062356/1552631036_EN.jpg"
+                                         alt="Orway">
+                                </figure>
+                                <section class="item-brief">
+                                    <div class="item-arrow"></div>
+                                    <div class="item-data">
+                                        <h3 class="item-title">Orway</h3>
+                                        <div class="item-subtitle">Сайт для привлечения $200 млн инвестиций в итальянский стартап</div>
+                                    </div>
+                                </section>
+                            </a>
+                        </li>
+                                    </ul>
+            </div>
+        </div>
+        <div class="btn-box">
+            <a href="/portfolio" class="btn btn-simple">Смотреть портфолио</a>
+        </div>
+    </div>
+</div>";i:1;N;}
