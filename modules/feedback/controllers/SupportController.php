@@ -34,9 +34,8 @@ class SupportController extends Controller
                 'denyCallback' => function () {
                     if (Yii::$app->user->isGuest) {
                         return $this->redirect('/site/login');
-                    } else {
-                        throw new HttpException(403, 'У вас нет доступа для выбранного действия');
                     }
+                    throw new HttpException(403, 'У вас нет доступа для выбранного действия');
                 },
                 'rules'        => [
                     [

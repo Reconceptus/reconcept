@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
             [
                 'class'    => 'yii\grid\ActionColumn',
-                'template' => '{download}',
+                'template' => '{download} {delete}',
                 'buttons'  => [
                     'download' => function ($url, $model) {
                         return $model->file ? Html::a('<span class="fa fa-download" title="Загрузить файл"></span>', Yii::$app->params['front'] . $model->file) : '';
