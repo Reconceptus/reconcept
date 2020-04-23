@@ -10,6 +10,7 @@ namespace frontend\controllers;
 
 
 use common\helpers\FileHelper;
+use common\helpers\Telegram;
 use common\models\Html;
 use common\models\User;
 use modules\config\models\Config;
@@ -18,6 +19,7 @@ use modules\utils\models\Subscriber;
 use modules\utils\models\UtilsShare;
 use Yii;
 use yii\base\Exception;
+use yii\helpers\Json;
 use yii\rest\Controller;
 use yii\validators\EmailValidator;
 use yii\web\Response;
@@ -60,9 +62,9 @@ class FeedbackController extends Controller
                     $mail = Yii::$app->mailer->compose('subscribed', ['model' => $model]);
                     $mail->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name]);
                     $mail->setTo($model->email);
-                    $mail->setBcc(Config::getValue('requestEmail'));
                     $mail->setSubject('Оформлена подписка на сайте '.Yii::$app->request->getHostInfo());
                     $mail->send();
+                    Telegram::send('Оформлена подписка на сайте '.Yii::$app->request->getHostInfo().' на почту '.$model->email);
                 }
             }
         }
@@ -92,12 +94,7 @@ class FeedbackController extends Controller
                 $mail->setSubject('Спасибо за обращение');
                 $mail->send();
             }
-            $mail = Yii::$app->mailer->compose();
-            $mail->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name]);
-            $mail->setTo(Config::getValue('requestEmail'));
-            $mail->setSubject('Заявка на консультацию. Контакт '.$contact);
-            $mail->setTextBody('Заявка на консультацию. Контакт '.$contact);
-            $mail->send();
+            Telegram::send('Reconcept: Заявка на консультацию. Контакт '.$contact);
             $status = 'success';
         }
         if (Yii::$app->request->isAjax) {
@@ -127,6 +124,7 @@ class FeedbackController extends Controller
             $mail->setTo($contact);
             $mail->setSubject('Спасибо за обращение');
             $mail->send();
+            Telegram::send('Новое обращение из статьи '.$url);
         }
         if (Yii::$app->request->isAjax) {
             return ['status' => $status];
@@ -165,6 +163,7 @@ class FeedbackController extends Controller
                 ['name' => $name, 'email' => $email, 'address' => $phone, 'message' => $message])
                 ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])->setTo($email)
                 ->setSubject('Спасибо за обращение')->send();
+            Telegram::send('Новое обращение через форму саппорта: '.Json::encode(['name' => $name, 'email' => $email, 'address' => $phone, 'message' => $message]));
             $status = 'success';
         }
         return ['status' => $status];

@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\helpers\Telegram;
 use frontend\widgets\comments\Comments;
 use modules\blog\models\BlogCategory;
 use modules\blog\models\BlogFavorite;
@@ -9,6 +10,7 @@ use modules\blog\models\Comment;
 use modules\blog\models\Post;
 use modules\blog\models\Tag;
 use modules\config\models\Config;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\web\Controller;
@@ -146,28 +148,25 @@ class BlogController extends Controller
      */
     public function actionAddComment()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $post = \Yii::$app->request->post();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $post = Yii::$app->request->post();
         if ($post) {
             $name = Html::encode($post['name']);
             $text = Html::encode($post['comment']);
             $email = Html::encode($post['mail']);
             $accept = !empty($post['approve']) ? 1 : 0;
             if ($accept) {
-                $parent = Comment::findOne(['id' => intval($post['comment_id'])]);
+                $parent = Comment::findOne(['id' => (int)($post['comment_id'])]);
                 if ($parent) {
                     if ($newComment = Comment::add($parent, $name, $text, $email)) {
-                        $mail = \Yii::$app->mailer->compose('new-comment', ['model' => $newComment]);
-                        $mail->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name]);
+                        $mail = Yii::$app->mailer->compose('new-comment', ['model' => $newComment]);
+                        $mail->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name]);
                         if ($parent->depth > 0) {
                             $mail->setTo($parent->email);
-                            $mail->setBcc(Config::getValue('requestEmail'));
-                        } else {
-                            $mail->setTo(Config::getValue('requestEmail'));
+                            $mail->setSubject('Новый комментарий на сайте '.Yii::$app->request->getHostInfo());
+                            $mail->send();
                         }
-                        $mail->setSubject('Новый комментарий на сайте '.\Yii::$app->request->getHostInfo());
-                        $mail->send();
-
+                        Telegram::send('Новый комментарий на сайте '.Yii::$app->request->getHostInfo().': '.Yii::$app->params['front'].'/blog/'.$newComment->post->slug);
                         return [
                             'status' => 'success',
                             'html'   => Config::getValue('pre_moderate_comments') ? '' : Comments::renderComment($newComment)
