@@ -25,7 +25,7 @@ class Telegram
             ])
             ->send();
         if (!$response->isOk) {
-            Yii::info(Json::encode($response));
+            Yii::info('Проблема телеграма:'.Json::encode($response));
         }
     }
 }
