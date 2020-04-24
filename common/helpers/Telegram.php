@@ -5,14 +5,15 @@ namespace common\helpers;
 
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\httpclient\Client;
 
 class Telegram
 {
-    public static function send($text, $email=null, $params = [])
+    public static function send($text, $email = null, $params = [])
     {
-        if(!$email){
+        if (!$email) {
             $email = Yii::$app->params['adminEmail'];
         }
         $client = new Client();
@@ -21,7 +22,7 @@ class Telegram
             ->setFormat(Client::FORMAT_JSON)
             ->setUrl(Yii::$app->params['telegramUrl'])
             ->setData([
-                'email' => $email, 'text' => $text,
+                'email' => $email, 'text' => $text, 'site' => ArrayHelper::getValue(Yii::$app->params, 'telegramBearer') ?? 'reconcept.ru'
             ])
             ->send();
         if (!$response->isOk) {
