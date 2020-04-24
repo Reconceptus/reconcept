@@ -25,7 +25,8 @@ class TelegramTarget extends Target
     {
         if (!empty(Yii::$app->params['telegramUrl'])) {
             $email = Yii::$app->params['techEmail'];
-            Telegram::send(yii\helpers\Json::encode($this->messages), $email);
+            $message = implode("\n", array_map([$this, 'formatMessage'], $this->messages)) . "\n";
+            Telegram::send($message, $email);
         }
     }
 
