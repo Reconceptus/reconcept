@@ -24,6 +24,5 @@ $(function () {
         }
         let count = favorites.length;
         $('span.fav-counter').text(count);
-        console.log(favorites)
     });
 });

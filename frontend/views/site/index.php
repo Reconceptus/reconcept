@@ -1,7 +1,5 @@
 <?php
 
-/* @var $this yii\web\View */
-
 $this->title = 'Reconcept';
 ?>
 <div id="main" class="main">
