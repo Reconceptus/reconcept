@@ -34,7 +34,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => $model->descriptio
                             <span class="item-num">Статья №<?= $model->id ?></span>
                             <?php if (Yii::$app->user->can('blog_post')): ?>
                                 <span style="margin-left: 25px"><a target="_blank"
-                                                                   href="<?= Yii::$app->params['back'] . '/blog/post/update?id=' . $model->id ?>">Редактировать</a></span>
+                                                                   href="<?= Yii::$app->params['back'].'/blog/post/update?id='.$model->id ?>">Редактировать</a></span>
                             <?php endif; ?>
                         </div>
                         <h1 class="page-title--text">
@@ -49,7 +49,9 @@ $this->registerMetaTag(['name' => 'description', 'content' => $model->descriptio
                         <div class="text-box--layout article-info">
                             <aside class="text-box--aside">
                                 <figure class="person">
-                                    <img src="<?= $author->getAvatar() ?>" alt="<?= $author->fio ?>">
+                                    <div class="img">
+                                        <img src="<?= $author->getAvatar() ?>" alt="<?= $author->fio ?>">
+                                    </div>
                                     <figcaption>
                                         <p><?= $author->fio ?>,</p>
                                         <p><?= $author->position ?></p>

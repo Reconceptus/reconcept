@@ -928,6 +928,12 @@ svg {
   line-height: 1.5;
 }
 
+.text-section .person .img {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
 .text-section .person img {
   display: block;
   width: 100%;
@@ -1678,6 +1684,7 @@ textarea {
 
 .search-modal .search-form .input-box {
   position: relative;
+  overflow: hidden;
 }
 
 .search-modal .search-form .input-box input {
@@ -1689,8 +1696,6 @@ textarea {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 203px;
-  right: 203px;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -1715,7 +1720,6 @@ textarea {
 }
 
 .search-modal .search-form .clone-text .text {
-  font-size: 3.19104rem;
   font-family: "Yeseva One", cursive;
   opacity: 0;
   pointer-events: none;
@@ -2080,8 +2084,8 @@ textarea {
 }
 
 .text-box--images .image img {
-  -webkit-box-shadow: 0 0 2rem 0 RGBA(0, 0, 0, 0.4);
-  box-shadow: 0 0 2rem 0 RGBA(0, 0, 0, 0.4);
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .text-box--images img {
@@ -4172,14 +4176,6 @@ textarea {
     font-size: 3.19104rem;
   }
 
-  .search-form input[type="text"] {
-    line-height: 128px;
-    height: 128px;
-    padding: 0 25px 0 153px;
-    font-size: 3.19104rem;
-    border-bottom: 3px solid #FFF;
-  }
-
   .file:not(.has-file):hover {
     color: #932064;
   }
@@ -4243,6 +4239,7 @@ textarea {
   }
 
   .consultation .title span {
+    will-change: transform;
     -webkit-animation: blurText 6s linear infinite;
     animation: blurText 6s linear infinite;
   }
@@ -4874,6 +4871,9 @@ textarea {
 
   .portfolio .item-brief {
     font-weight: 700;
+    height: auto;
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
 
   .portfolio .item-data {
@@ -4903,6 +4903,11 @@ textarea {
   .project-listing .listing li {
     width: 25%;
     padding: 0 12.5px;
+  }
+
+  .project-listing .listing .item-brief {
+    min-height: 64px;
+    padding: 24px 0;
   }
 
   .project-preview:not(:last-child) {
@@ -5400,7 +5405,7 @@ textarea {
   }
 
   .blog-grid li {
-    margin-bottom: 22px;
+    margin-bottom: 35px;
   }
 
   .project-listing .listing li {
@@ -6062,7 +6067,7 @@ textarea {
   .search-form input[type="text"] {
     line-height: 40px;
     height: 40px;
-    padding: 0 15px;
+    padding: 0 60px 0 15px;
     font-size: 1.385rem;
     border-bottom: 1px solid #FFF;
   }
@@ -6113,6 +6118,15 @@ textarea {
   .pagination span {
     width: 40px;
     height: 40px;
+  }
+
+  .search-modal .search-form .input-dublicate {
+    left: 15px;
+    right: 100px;
+  }
+
+  .search-modal .search-form .clone-text .text {
+    font-size: 1.385rem;
   }
 
   .modal {
@@ -6478,6 +6492,35 @@ textarea {
 
   .text-section--main.large {
     padding-bottom: 105px;
+  }
+
+  .text-section .person .img {
+    height: 300px;
+    width: 100%;
+  }
+
+  .text-section .person .img img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+
+  .search-form input[type="text"] {
+    line-height: 128px;
+    height: 128px;
+    padding: 0 90px 0 218px;
+    font-size: 3.19104rem;
+    border-bottom: 3px solid #FFF;
+  }
+
+  .search-modal .search-form .input-dublicate {
+    left: 218px;
+    right: 218px;
+  }
+
+  .search-modal .search-form .clone-text .text {
+    font-size: 3.19104rem;
   }
 
   .modal {
@@ -6944,6 +6987,35 @@ textarea {
     padding-bottom: 40px;
   }
 
+  .text-section .person .img {
+    height: 24vw;
+    width: 100%;
+  }
+
+  .text-section .person .img img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+
+  .search-form input[type="text"] {
+    line-height: 128px;
+    height: 128px;
+    padding: 0 77px 0 205px;
+    font-size: 3.19104rem;
+    border-bottom: 3px solid #FFF;
+  }
+
+  .search-modal .search-form .input-dublicate {
+    left: 205px;
+    right: 205px;
+  }
+
+  .search-modal .search-form .clone-text .text {
+    font-size: 3.19104rem;
+  }
+
   .home-services {
     margin-bottom: 100px;
   }
@@ -7014,7 +7086,7 @@ textarea {
   .search-form input[type="text"] {
     line-height: 80px;
     height: 80px;
-    padding: 0 25px;
+    padding: 0 70px 0 25px;
     font-size: 2.216rem;
     border-bottom: 2px solid #FFF;
   }
@@ -7055,6 +7127,15 @@ textarea {
 
   .subscription .title {
     margin-bottom: 60px;
+  }
+
+  .search-modal .search-form .input-dublicate {
+    left: 25px;
+    right: 150px;
+  }
+
+  .search-modal .search-form .clone-text .text {
+    font-size: 2.216rem;
   }
 
   .inline-support .support-form {

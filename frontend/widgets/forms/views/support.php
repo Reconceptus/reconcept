@@ -135,6 +135,7 @@ $('.support-modal .support-form form').validate({
             data: formData,
             success: function (res) {
                 if (res.status === 'success') {
+                    $('.support-modal').addClass('active');
                     $('.support-modal .support-form').addClass('successful');
                 }
                 button.show();

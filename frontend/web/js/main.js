@@ -445,6 +445,7 @@ $(document).ready(function () {
         project.ovhEnable();
         $header.removeClass('simple-header');
         $('.search-modal').addClass('active');
+        $('.search-input').focus();
     });
 
     $support.on('click',function () {
@@ -453,9 +454,10 @@ $(document).ready(function () {
         $('.support-modal').addClass('active');
     });
 
-    $modal.find('.close').on('click',function () {
+    $(document).on('click','.modal .close',function () {
         project.ovhDisable();
-        $modal.removeClass('active');
+        $('.modal').find('.successful').removeClass('successful');
+        $('.modal').removeClass('active');
     });
 
     /*
