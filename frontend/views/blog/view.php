@@ -15,12 +15,14 @@ use modules\blog\models\Post;
 use modules\config\models\Config;
 use modules\utils\helpers\ContentHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $model Post */
 
 $author = $model->author;
 $this->title = $model->title;
 $this->registerMetaTag(['name' => 'description', 'content' => $model->description]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
 ?>
 <div id="main" class="main">
 

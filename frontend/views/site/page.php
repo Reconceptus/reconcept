@@ -8,8 +8,12 @@
 
 use modules\config\models\Config;
 use modules\utils\helpers\ContentHelper;
+use yii\helpers\Url;
 
 /* @var $model \modules\utils\models\Page */
+$this->titla = $model->seo_title;
+$this->registerMetaTag(['name' => 'description', 'content' => $model->seo_description]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
 ?>
 <div id="main" class="main">
 

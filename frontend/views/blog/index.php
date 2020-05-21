@@ -4,6 +4,7 @@ use frontend\components\CustomPager;
 use frontend\widgets\blogSidebar\BlogSidebar;
 use frontend\widgets\forms\Forms;
 use frontend\widgets\postPreview\PostPreview;
+use yii\helpers\Url;
 use yii\web\View;
 use yii\widgets\ListView;
 
@@ -12,6 +13,7 @@ use yii\widgets\ListView;
 /* @var $this View */
 $this->title = 'Блог компании Reconcept';
 $this->registerMetaTag(['name' => 'description', 'content' => 'Блог компании Reconcept']);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
 ?>
 <div id="main" class="main">
 

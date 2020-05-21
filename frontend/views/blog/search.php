@@ -7,12 +7,14 @@
  */
 
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 use yii\widgets\ListView;
 
 /* @var string $q */
 /* @var ActiveDataProvider $dataProvider */
 $this->title = 'Поиск';
 $this->registerMetaTag(['name' => 'description', 'content' => 'Поиск по блогу']);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
 ?>
 <div id="main" class="main">
 

@@ -14,11 +14,14 @@ use frontend\widgets\share\Share;
 use modules\config\models\Config;
 use modules\portfolio\models\Portfolio;
 use modules\utils\helpers\ContentHelper;
+use yii\helpers\Url;
 
 /* @var $model Portfolio */
 
 $author = $model->author;
-$this->title = $model->full_name;
+$this->title = $model->seo_title;
+$this->registerMetaTag(['name' => 'description', 'content' => $model->seo_description]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
 ?>
 <div id="main" class="main">
 

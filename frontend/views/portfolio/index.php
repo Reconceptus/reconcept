@@ -16,6 +16,7 @@ use yii\widgets\ListView;
 
 $this->title = Config::getValue('portfolio_index_seo_title');
 $this->registerMetaTag(['name' => 'description', 'content' => Config::getValue('portfolio_index_seo_description')]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
 ?>
 <div id="main" class="main">
     <div class="portfolio">

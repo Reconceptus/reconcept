@@ -1,6 +1,10 @@
 <?php
 
+use yii\helpers\Url;
+
 $this->title = 'Reconcept';
+$this->registerMetaTag(['name' => 'description', 'content' => 'Reconcept - web-студия']);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
 ?>
 <div id="main" class="main">
 
