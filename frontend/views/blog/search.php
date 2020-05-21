@@ -11,6 +11,8 @@ use yii\widgets\ListView;
 
 /* @var string $q */
 /* @var ActiveDataProvider $dataProvider */
+$this->title = 'Поиск';
+$this->registerMetaTag(['name' => 'description', 'content' => 'Поиск по блогу']);
 ?>
 <div id="main" class="main">
 
