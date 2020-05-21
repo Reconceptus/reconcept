@@ -22,7 +22,7 @@ use yii\helpers\Url;
 $author = $model->author;
 $this->title = $model->title;
 $this->registerMetaTag(['name' => 'description', 'content' => $model->description]);
-$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getHostInfo().'/'.Yii::$app->request->getPathInfo()]);
 ?>
 <div id="main" class="main">
 

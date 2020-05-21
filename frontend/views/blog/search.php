@@ -14,7 +14,7 @@ use yii\widgets\ListView;
 /* @var ActiveDataProvider $dataProvider */
 $this->title = 'Поиск';
 $this->registerMetaTag(['name' => 'description', 'content' => 'Поиск по блогу']);
-$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getHostInfo().'/'.Yii::$app->request->getPathInfo()]);
 ?>
 <div id="main" class="main">
 

@@ -11,9 +11,9 @@ use modules\utils\helpers\ContentHelper;
 use yii\helpers\Url;
 
 /* @var $model \modules\utils\models\Page */
-$this->titla = $model->seo_title;
+$this->title = $model->seo_title;
 $this->registerMetaTag(['name' => 'description', 'content' => $model->seo_description]);
-$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getHostInfo().'/'.Yii::$app->request->getPathInfo()]);
 ?>
 <div id="main" class="main">
 

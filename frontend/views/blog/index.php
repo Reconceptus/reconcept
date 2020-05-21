@@ -13,7 +13,7 @@ use yii\widgets\ListView;
 /* @var $this View */
 $this->title = 'Блог компании Reconcept';
 $this->registerMetaTag(['name' => 'description', 'content' => 'Блог компании Reconcept']);
-$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getHostInfo().'/'.Yii::$app->request->getPathInfo()]);
 ?>
 <div id="main" class="main">
 

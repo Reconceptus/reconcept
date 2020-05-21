@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 $this->title = 'Reconcept';
 $this->registerMetaTag(['name' => 'description', 'content' => 'Reconcept - web-студия']);
-$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getHostInfo().'/'.Yii::$app->request->getPathInfo()]);
 ?>
 <div id="main" class="main">
 
