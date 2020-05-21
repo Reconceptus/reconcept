@@ -1,19 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: venodon
- * Date: 23.01.2019
- * Time: 10:09
- */
 
 use frontend\components\CustomPager;
 use frontend\widgets\blogSidebar\BlogSidebar;
 use frontend\widgets\forms\Forms;
 use frontend\widgets\postPreview\PostPreview;
+use yii\web\View;
 use yii\widgets\ListView;
 
 /* @var $slug string|null */
 /* @var $favorites array */
+/* @var $this View */
+$this->title = 'Блог компании Reconcept';
+$this->registerMetaTag(['name' => 'description', 'content' => 'Блог компании Reconcept']);
 ?>
 <div id="main" class="main">
 

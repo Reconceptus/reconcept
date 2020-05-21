@@ -10,6 +10,8 @@ use modules\config\models\Config;
 use modules\utils\helpers\ContentHelper;
 
 /* @var $model \modules\services\models\Service */
+$this->title = $model->seo_title;
+$this->registerMetaTag(['name' => 'description', 'content' => $model->seo_description]);
 ?>
 <div id="main" class="main">
 
