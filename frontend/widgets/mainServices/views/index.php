@@ -23,7 +23,7 @@
                                 <?php foreach ($services as $service): ?>
                                     <?php if ($service->status === \modules\services\models\Service::STATUS_ACTIVE): ?>
                                         <?php if ($service->to_footer): ?>
-                                            <a class="item" href="<?= $service->url ?>"><?= $service->name ?></a>
+                                            <div class="item"> <a href="<?= $service->url ?>"><?= $service->name ?></a></div>
                                         <?php else: ?>
                                             <div class="item"><?= $service->name ?></div>
                                         <?php endif; ?>
