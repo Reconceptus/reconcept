@@ -22,7 +22,11 @@
                                 </div>
                                 <?php foreach ($services as $service): ?>
                                     <?php if ($service->status === \modules\services\models\Service::STATUS_ACTIVE): ?>
-                                        <div class="item"><?= $service->name ?></div>
+                                        <?php if ($service->to_footer): ?>
+                                            <a class="item" href="<?= $service->url ?>"><?= $service->name ?></a>
+                                        <?php else: ?>
+                                            <div class="item"><?= $service->name ?></div>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </section>
