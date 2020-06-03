@@ -122,9 +122,7 @@ class ServiceController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $model->status = Service::STATUS_DELETED;
-        $model->slug = $model->slug . time();
-        $model->save();
+        $model->delete();
 
         return $this->redirect(['index']);
     }
