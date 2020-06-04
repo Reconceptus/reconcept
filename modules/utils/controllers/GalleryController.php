@@ -112,20 +112,8 @@ class GalleryController extends Controller
     {
         $post = Yii::$app->request->post();
         if ($model->load($post) && $model->save()) {
-            $images = UploadedFile::getInstancesByName('images');
-            foreach ($images as $im) {
-                $imgModel = new Image();
-                $imgModel->class = $model->formName();
-                $imgModel->item_id = $model->id;
-                $imgModel->image = ImageHelper::uploadImage($imgModel, $im, true);
-                $imgModel->thumb = ImageHelper::cropImage($imgModel->image);
-                if ($imgModel->validate()) {
-                    $imgModel->save();
-                }else{
-                    var_dump($imgModel->errors);die;
-                }
-            }
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model->updateImages();
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('update', [

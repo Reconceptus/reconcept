@@ -3,6 +3,9 @@
 namespace modules\utils\models;
 
 use common\models\Image;
+use Yii;
+use yii\base\Exception;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "utils_gallery".
@@ -64,5 +67,19 @@ class UtilsGallery extends \yii\db\ActiveRecord
     public function getLayout()
     {
         return $this->hasOne(UtilsLayout::className(), ['id' => 'layout_id']);
+    }
+
+    /**
+     * @return int
+     * @throws Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\base\ErrorException
+     */
+    public function updateImages(): int
+    {
+        $guid = Yii::$app->request->post('guid');
+        $images = UploadedFile::getInstancesByName('images');
+        Image::addImages($this, $images, Image::TYPE_IMAGE, $guid);
+        return count($images);
     }
 }

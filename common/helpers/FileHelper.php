@@ -3,20 +3,22 @@
 namespace common\helpers;
 
 
+use modules\config\models\Config;
 use Yii;
 use yii\base\DynamicModel;
-use yii\base\Exception;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
+use yii\db\ActiveRecord;
 
 class FileHelper extends \yii\helpers\FileHelper
 {
     /**
-     * @param $model
+     * @param $model ActiveRecord
      * @param $file
+     * @param $width
+     * @param $height
      * @param bool $usePath
+     * @param bool $crop
      * @return string|null
-     * @throws Exception
+     * @throws \yii\base\Exception
      */
     public static function uploadFile($model, $file, $usePath = false)
     {
@@ -27,7 +29,7 @@ class FileHelper extends \yii\helpers\FileHelper
             $maxSize = 1024 * 1024 * 30;
             $extensions = ['jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx', 'pdf', 'odt', 'ods', 'odp', 'ppt', 'pptx'];
             $dyn->addRule('file', 'file',
-                ['maxSize' => $maxSize, 'tooBig' => 'Файл не может быть больше ' . $maxSize / (1024 * 1024 * 30) . 'MB', 'extensions' => $extensions, 'checkExtensionByMimeType' => true, 'wrongExtension' => 'Разрешены только файлы с расширениями ' . implode(', ', $extensions)])->validate();
+                ['maxSize' => $maxSize, 'tooBig' => 'Файл не может быть больше '.$maxSize / (1024 * 1024 * 30).'MB', 'extensions' => $extensions, 'checkExtensionByMimeType' => true, 'wrongExtension' => 'Разрешены только файлы с расширениями '. implode(', ',$extensions)])->validate();
             if ($dyn->hasErrors()) {
                 Yii::$app->session->setFlash('warning', $dyn->getFirstError('file'));
                 return null;
@@ -37,104 +39,87 @@ class FileHelper extends \yii\helpers\FileHelper
             if ($file->saveAs($dir . $path . $fileName)) {
                 return '/uploads/files/' . $model->formName() . $path . $fileName;
             }
-            Yii::$app->session->setFlash('warning', 'Ошибка при загрузке файла');
+            Yii::$app->session->setFlash('warning', 'Download error');
         }
         return null;
     }
 
     /**
      * @param $model
+     * @param $value
+     * @param $fieldName
      * @return array
      */
-    public static function getFilesOptions($model)
+    public static function getOptionsConfig($model, $value, $fieldName = 'value')
     {
         $pluginOptions = [
-            'deleteUrl'            => Url::to(['/file/delete-file']),
-            'deleteExtraData'      => [
-            ],
-            'initialPreviewAsData' => true,
-            'overwriteInitial'     => false,
-            'initialPreview'       => self::getFilesLinks($model),
-            'uploadExtraData'      => [
-                'Image[class]'   => $model->formName(),
-                'Image[item_id]' => $model->id,
-            ],
             'browseOnZoneClick'    => true,
             'dropZoneEnabled'      => true,
-            'language'             => 'ru',
+            'initialPreviewAsData' => true,
+            'language'             => 'en',
             'showPreview'          => true,
             'showCaption'          => false,
             'showRemove'           => false,
             'showUpload'           => false,
-            'showDrag'             => true,
+            'showDrag'             => false,
             'showBrowse'           => false,
-            'browseLabel'          => 'Выбрать файл',
-            'layoutTemplates'      => [
-                'actionZoom' => '',
-                'close'      => '',
-                'footer'     => '<div class="file-thumbnail-footer">
-                                <div class="file-caption-name">
-                                    <input type="text" class="kv-input kv-new form-control input-sm form-control-sm text-center" name="header" value="{caption}" placeholder="Название" />
-                                </div>
-                                {progress} {actions}
-                            </div>',
+            'deleteUrl'            => '/file/delete-file?field=' . $fieldName,
+            'deleteExtraData'      => [
+                'key'   => $model->id,
+                'class' => $model->className()
             ],
+            'browseLabel'          => 'Select file'
         ];
-        $pluginOptions['initialPreview'] = self::getFilesLinks($model);
-        $pluginOptions['initialPreviewConfig'] = self::getFilesLinksData($model);
+        if ($value) {
+            $pluginOptions['initialPreview'] = $value;
+        }
+        if ($model->type === Config::TYPE_FILE) {
+            $fileName = explode('.', $model->value);
+            $ext = end($fileName);
+            $pluginOptions['initialPreviewConfig'] = [
+                ['type' => self::getFileType($ext), 'size' => 3550, 'caption' => $model->name]
+            ];
+        }
+
         return $pluginOptions;
     }
 
-    /**
-     * @param string $ext
-     * @return mixed|string
-     */
     public static function getFileType(string $ext)
     {
         $types = [
             'pdf'  => 'pdf',
             'xlsx' => 'office',
             'xls'  => 'office',
-            'doc'  => 'office',
-            'docx' => 'office',
-            'jpg'  => 'image',
-            'gif'  => 'image',
-            'jpeg' => 'image',
-            'png'  => 'image',
             'txt'  => 'text',
             'mp4'  => 'video',
             'html' => 'html',
         ];
         if (!array_key_exists($ext, $types)) {
-            return 'other';
+            return 'object';
         }
         return $types[$ext];
     }
 
     /**
-     * @param $model
-     * @param string $attribute
-     * @return array
+     * @param string $file
+     * @param bool $deletePath
+     * @return bool
      */
-    public static function getFilesLinks($model, $attribute = 'files')
+    public static function delete($file, bool $deletePath = false)
     {
-        return ArrayHelper::getColumn($model->$attribute, 'file');
-    }
-
-    /**
-     * @param $model
-     * @param string $attribute
-     * @return array
-     */
-    public static function getFilesLinksData($model, $attribute = 'files')
-    {
-        $data = $model->$attribute;
-        $result = [];
-        foreach ($data as $item) {
-            $fileName = explode('.', $item->file);
-            $ext = end($fileName);
-            $result[] = ['type' => self::getFileType($ext), 'size' => 3550, 'caption' => $item->alt ?? '', 'key' => $item->id, 'class' => $item->class];
+        $file = Yii::getAlias('@frontend/web') . $file;
+        try {
+            unlink($file);
+            if ($deletePath) {
+                $fileNameArr = explode('/', $file);
+                unset($fileNameArr[count($fileNameArr) - 1]);
+                $path = implode('/', $fileNameArr);
+                rmdir($path);
+            }
+            return true;
+        } catch (\Exception $e) {
+            Yii::info($e->getMessage());
+            return false;
         }
-        return $result;
     }
 }

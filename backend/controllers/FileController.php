@@ -8,8 +8,11 @@ use common\models\File;
 use common\models\Image;
 use modules\config\models\Config;
 use Yii;
+use yii\base\DynamicModel;
+use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
@@ -23,14 +26,17 @@ class FileController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['delete-model-image', 'delete-image', 'delete-single-image', 'upload-image', 'sort-image', 'sort-file', 'delete-file', 'set-alt', 'process', 'import', 'editor-upload'],
+                        'actions' => [
+                            'delete-model-image', 'delete-image', 'delete-single-image', 'upload-image', 'sort-image', 'sort-file', 'delete-file',
+                            'set-alt', 'process', 'import', 'editor-upload', 'upload', 'upload-gallery'
+                        ],
                         'allow'   => true,
                         'roles'   => ['adminPanel'],
                     ],
@@ -50,13 +56,17 @@ class FileController extends Controller
     /**
      * @return array
      */
-    public function actions()
+    public function actions(): array
     {
 
         $maxWidth = Config::getValue('maxWidth');
         $maxHeight = Config::getValue('maxHeight');
-        if(!$maxWidth) $maxWidth = 2000;
-        if(!$maxHeight) $maxHeight = 2000;
+        if (!$maxWidth) {
+            $maxWidth = 2000;
+        }
+        if (!$maxHeight) {
+            $maxHeight = 2000;
+        }
         return [
             'editor-upload' => [
                 'class'            => 'vova07\imperavi\actions\UploadFileAction',
@@ -77,7 +87,7 @@ class FileController extends Controller
      * @return bool
      * @throws NotFoundHttpException
      */
-    public function actionSetAlt()
+    public function actionSetAlt(): bool
     {
         $class = Yii::$app->request->post('class');
         if (!$class) {
@@ -94,12 +104,12 @@ class FileController extends Controller
     }
 
     /**
-     * Сортировка картинок
+     * Images sort
      * @param $id
      * @return bool
      * @throws MethodNotAllowedHttpException
      */
-    public function actionSortImage($id)
+    public function actionSortImage($id): bool
     {
         $type = Yii::$app->request->get('type');
         if (!$type) {
@@ -126,12 +136,12 @@ class FileController extends Controller
     }
 
     /**
-     * Сортировка файлов
+     * Files sort
      * @param $id
      * @return bool
      * @throws MethodNotAllowedHttpException
      */
-    public function actionSortFile($id)
+    public function actionSortFile($id): bool
     {
         if (Yii::$app->request->isAjax) {
             $sort = Yii::$app->request->post('sort');
@@ -157,14 +167,16 @@ class FileController extends Controller
      * @return bool
      * @throws NotFoundHttpException
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
+     * @throws StaleObjectException
      */
-    public function actionDeleteImage()
+    public function actionDeleteImage(): bool
     {
         $post = Yii::$app->request->post();
         if (!empty($post['key'])) {
-            $model = Image::findOne(['id' => $post['key']]);
+            $model = Image::findOne(['id' => $post['key'], 'type' => $post['type']]);
             if ($model) {
+                FileHelper::delete($model->image);
+                FileHelper::delete($model->thumb);
                 $model->delete();
                 return true;
             }
@@ -172,7 +184,7 @@ class FileController extends Controller
         throw new NotFoundHttpException();
     }
 
-    public function actionDeleteSingleImage()
+    public function actionDeleteSingleImage(): bool
     {
         $post = Yii::$app->request->post();
         $field = Yii::$app->request->get('field');
@@ -181,8 +193,9 @@ class FileController extends Controller
         }
         if (!empty($post['key']) && !empty($post['class'])) {
             $class = $post['class'];
-            $model = $class::findOne(['id' => intval($post['key'])]);
+            $model = $class::findOne(['id' => (int)$post['key']]);
             if ($model) {
+                FileHelper::delete($model->$field);
                 $model->$field = '';
                 if ($model->save()) {
                     return true;
@@ -257,5 +270,89 @@ class FileController extends Controller
             }
         }
         return false;
+    }
+
+
+    public function actionUpload()
+    {
+        $field = Yii::$app->request->post('field');
+        $guid = Yii::$app->request->post('guid');
+        $type = Yii::$app->request->post('type');
+        $imageFile = UploadedFile::getInstanceByName($field);
+        if (!$imageFile) {
+            $imageFiles = UploadedFile::getInstancesByName($field);
+            if ($imageFiles) {
+                $imageFile = $imageFiles[0];
+            }
+        }
+        if ($imageFile) {
+            $dyn = new DynamicModel(compact('imageFile'));
+            $dyn->addRule('imageFile', 'image')->validate();
+            if ($dyn->hasErrors()) {
+                Yii::$app->session->setFlash('warning', $dyn->getFirstError('imageFile'));
+                return '';
+            }
+            $directory = Yii::getAlias('@frontend/web/uploads/temp') . '/' . Yii::$app->session->id . '/' . $guid . '/' . $type . '/';
+            if (!is_dir($directory)) {
+                FileHelper::createDirectory($directory);
+            }
+            $fileName = $imageFile->name;
+            $filePath = $directory . $fileName;
+            if ($imageFile->saveAs($filePath)) {
+                $path = Yii::getAlias('@frontend/web/uploads/temp') . '/' . Yii::$app->session->id . '/' . $guid . '/' . $type . '/' . $fileName;
+                return Json::encode([
+                    'files' => [
+                        [
+                            'name' => $fileName,
+                            'path' => $path,
+                        ],
+                    ],
+                ]);
+            }
+        } else {
+            return '{}';
+        }
+        return '';
+    }
+
+    public function actionUploadGallery()
+    {
+        $field = Yii::$app->request->post('field');
+        $guid = Yii::$app->request->post('guid');
+        $imageFile = UploadedFile::getInstanceByName($field);
+        if (!$imageFile) {
+            $imageFiles = UploadedFile::getInstancesByName($field);
+            if ($imageFiles) {
+                $imageFile = $imageFiles[0];
+            }
+        }
+        if ($imageFile) {
+            $dyn = new DynamicModel(compact('imageFile'));
+            $dyn->addRule('imageFile', 'image')->validate();
+            if ($dyn->hasErrors()) {
+                Yii::$app->session->setFlash('warning', $dyn->getFirstError('imageFile'));
+                return '';
+            }
+            $directory = Yii::getAlias('@frontend') . '/web/uploads/temp/' . Yii::$app->session->id . '/' . $guid . '/';
+            if (!is_dir($directory)) {
+                FileHelper::createDirectory($directory);
+            }
+            $fileName = $imageFile->name;
+            $filePath = $directory . $fileName;
+            if ($imageFile->saveAs($filePath)) {
+                $path = $directory . $fileName;
+                return Json::encode([
+                    'files' => [
+                        [
+                            'name' => $fileName,
+                            'path' => $path,
+                        ],
+                    ],
+                ]);
+            }
+        } else {
+            return '{}';
+        }
+        return '';
     }
 }
