@@ -30,14 +30,14 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'image')->widget(FileInput::classname(), [
                 'options'       => ['accept' => 'image/*'],
                 'value'         => $model->image,
-                'pluginOptions' => ImageHelper::getOptionsSingle($model, $model->image)
+                'pluginOptions' => ImageHelper::getOptionsSingle($model, $model->image, 'image', true)
             ]); ?>
         </div>
         <div class="col-xs-3 admin-image">
             <?= $form->field($model, 'image_preview')->widget(FileInput::classname(), [
                 'options'       => ['accept' => 'image/*'],
                 'value'         => $model->image_preview,
-                'pluginOptions' => ImageHelper::getOptionsSingle($model, $model->image_preview, 'image_preview')
+                'pluginOptions' => ImageHelper::getOptionsSingle($model, $model->image_preview, 'image_preview', true)
             ]); ?>
         </div>
     </div>

@@ -81,7 +81,7 @@ class ImageHelper
             'showUpload'           => false,
             'showDrag'             => false,
             'showBrowse'           => false,
-            'deleteUrl'            => '/en/file/delete-single-image?field='.$fieldName,
+            'deleteUrl'            => '/file/delete-single-image?field='.$fieldName,
             'deleteExtraData'      => [
                 'key'   => $model->id,
                 'class' => $model->className()
