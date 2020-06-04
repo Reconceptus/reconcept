@@ -52,7 +52,7 @@ class ImageHelper
         foreach ($data as $item) {
             /* @var $item Image */
             $result[] = [
-                'caption' => $item->alt ?? '', 'key' => $item->id, 'class' => $item->class,
+                'caption' => $item->alt ?? '', 'key' => $item->id, 'class' => $item->class_full,
                 'user_id' => $model->hasAttribute('user_id') ? $model->user_id : null
             ];
         }

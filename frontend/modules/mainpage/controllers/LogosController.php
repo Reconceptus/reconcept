@@ -89,7 +89,7 @@ class LogosController extends Controller
                 $imgModel->class = $model->formName();
                 $imgModel->item_id = $model->id;
                 $imgModel->image = ImageHelper::uploadImage($imgModel, $im);
-                $imgModel->thumb = ImageHelper::cropImage($imgModel->image);
+                $imgModel->thumb =  $imgModel->image;
                 if ($imgModel->validate()) {
                     $imgModel->save();
                 } else {

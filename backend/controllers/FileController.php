@@ -130,7 +130,7 @@ class FileController extends Controller
                 $counter = -1;
             }
             Image::updateAllCounters(['sort' => $counter], [
-                'and', ['class' => $sort['stack'][$sort['newIndex']]['class'], 'item_id' => $id], $param
+                'and', ['class_full' => $sort['stack'][$sort['newIndex']]['class'], 'item_id' => $id], $param
             ]);
             Image::updateAll(['sort' => $sort['newIndex']], [
                 'id' => $sort['stack'][$sort['newIndex']]['key']

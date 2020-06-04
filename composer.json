@@ -24,7 +24,7 @@
         "vova07/yii2-imperavi-widget": "*",
         "kartik-v/yii2-widget-select2": "@dev",
         "yurkinx/yii2-image": "dev-master",
-        "kartik-v/yii2-widget-fileinput": "@dev",
+        "kartik-v/yii2-widget-fileinput": "1.0.8",
         "paulzi/yii2-nested-sets" : "^1.0",
         "yiisoft/yii2-authclient": "^2.1",
         "kotchuprik/yii2-odnoklassniki-authclient": "*",
