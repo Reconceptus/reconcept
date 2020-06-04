@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adm
- * Date: 10.12.2018
- * Time: 16:29
- */
 
 namespace common\helpers;
 
@@ -33,17 +27,15 @@ class FileHelper extends \yii\helpers\FileHelper
             $maxSize = 1024 * 1024 * 30;
             $extensions = ['jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx', 'pdf', 'odt', 'ods', 'odp', 'ppt', 'pptx'];
             $dyn->addRule('file', 'file',
-                ['maxSize' => $maxSize, 'tooBig' => 'Файл не может быть больше '.$maxSize / (1024 * 1024 * 30).'MB', 'extensions' => $extensions, 'checkExtensionByMimeType' => true, 'wrongExtension' => 'Разрешены только файлы с расширениями '. implode(', ',$extensions)])->validate();
+                ['maxSize' => $maxSize, 'tooBig' => 'Файл не может быть больше ' . $maxSize / (1024 * 1024 * 30) . 'MB', 'extensions' => $extensions, 'checkExtensionByMimeType' => true, 'wrongExtension' => 'Разрешены только файлы с расширениями ' . implode(', ', $extensions)])->validate();
             if ($dyn->hasErrors()) {
                 Yii::$app->session->setFlash('warning', $dyn->getFirstError('file'));
                 return null;
-            } else {
-                FileHelper::createDirectory($dir . $path, 0775, true);
-                $fileName = time() . '_' . Yii::$app->security->generateRandomString(2) . '.' . $file->extension;
-                if ($file->saveAs($dir . $path . $fileName)) {
-                    $link = '/uploads/files/' . $model->formName() . $path . $fileName;
-                    return $link;
-                }
+            }
+            self::createDirectory($dir . $path, 0775, true);
+            $fileName = time() . '_' . Yii::$app->security->generateRandomString(2) . '.' . $file->extension;
+            if ($file->saveAs($dir . $path . $fileName)) {
+                return '/uploads/files/' . $model->formName() . $path . $fileName;
             }
             Yii::$app->session->setFlash('warning', 'Ошибка при загрузке файла');
         }

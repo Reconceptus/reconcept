@@ -137,6 +137,9 @@ $('.contacts-form form').validate({
                 if (res.status === 'success') {
                     $('.contacts-form').addClass('successful');
                 }
+                 if(res.message){
+                    alert(res.message);
+                }
                 button.show();
             },
         });
