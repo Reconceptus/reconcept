@@ -62,9 +62,9 @@ class FeedbackController extends Controller
                     $mail = Yii::$app->mailer->compose('subscribed', ['model' => $model]);
                     $mail->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name]);
                     $mail->setTo($model->email);
-                    $mail->setSubject('Оформлена подписка на сайте '.Yii::$app->request->getHostInfo());
+                    $mail->setSubject('Оформлена подписка на сайте ' . Yii::$app->request->getHostInfo());
                     $mail->send();
-                    Telegram::send('Оформлена подписка на сайте '.Yii::$app->request->getHostInfo().' на почту '.$model->email);
+                    Telegram::send('Оформлена подписка на сайте ' . Yii::$app->request->getHostInfo() . ' на почту ' . $model->email);
                 }
             }
         }
@@ -94,7 +94,7 @@ class FeedbackController extends Controller
                 $mail->setSubject('Спасибо за обращение');
                 $mail->send();
             }
-            Telegram::send('Reconcept: Заявка на консультацию. Контакт '.$contact);
+            Telegram::send('Reconcept: Заявка на консультацию. Контакт ' . $contact);
             $status = 'success';
         }
         if (Yii::$app->request->isAjax) {
@@ -124,7 +124,7 @@ class FeedbackController extends Controller
             $mail->setTo($contact);
             $mail->setSubject('Спасибо за обращение');
             $mail->send();
-            Telegram::send('Новое обращение из статьи '.$url);
+            Telegram::send('Новое обращение из статьи ' . $url);
         }
         if (Yii::$app->request->isAjax) {
             return ['status' => $status];
@@ -140,6 +140,7 @@ class FeedbackController extends Controller
     public function actionSupport()
     {
         $status = 'fail';
+        $error = '';
         $post = Yii::$app->request->post();
         if (array_key_exists('approve', $post) && $post['approve']) {
             $url = Html::eTake($post['url']);
@@ -156,17 +157,22 @@ class FeedbackController extends Controller
             $feedback->message = $message;
             $file = UploadedFile::getInstanceByName('file');
             if ($file) {
-                $feedback->file = FileHelper::uploadFile($feedback, $file, true);
+                $filePath = FileHelper::uploadFile($feedback, $file, true);
+                if ($filePath) {
+                    $feedback->file = $filePath;
+                } else {
+                    $error = Yii::$app->session->getFlash('warning');
+                }
             }
             $feedback->save();
             Yii::$app->mailer->compose('thanks',
                 ['name' => $name, 'email' => $email, 'address' => $phone, 'message' => $message])
                 ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])->setTo($email)
                 ->setSubject('Спасибо за обращение')->send();
-            Telegram::send('Новое обращение через форму саппорта: '.Json::encode(['name' => $name, 'email' => $email, 'address' => $phone, 'message' => $message]));
+            Telegram::send('Новое обращение через форму саппорта: ' . Json::encode(['name' => $name, 'email' => $email, 'address' => $phone, 'message' => $message]));
             $status = 'success';
         }
-        return ['status' => $status];
+        return ['status' => $status, 'message' => $error];
     }
 
     /**

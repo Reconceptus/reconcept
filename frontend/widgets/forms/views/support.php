@@ -138,6 +138,9 @@ $('.support-modal .support-form form').validate({
                     $('.support-modal').addClass('active');
                     $('.support-modal .support-form').addClass('successful');
                 }
+                if(res.message){
+                    alert(res.message);
+                }
                 button.show();
             },
         });

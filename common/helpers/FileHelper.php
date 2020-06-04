@@ -30,7 +30,10 @@ class FileHelper extends \yii\helpers\FileHelper
             $dir = Yii::getAlias('@files/' . $model->formName());
             $path = $usePath ? '/' . date('ymdHis') . '/' : '/';
             $dyn = new DynamicModel(compact('file'));
-            $dyn->addRule('file', 'file')->validate();
+            $maxSize = 1024 * 1024 * 30;
+            $extensions = ['jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx', 'pdf', 'odt', 'ods', 'odp', 'ppt', 'pptx'];
+            $dyn->addRule('file', 'file',
+                ['maxSize' => $maxSize, 'tooBig' => 'Файл не может быть больше '.$maxSize / (1024 * 1024 * 30).'MB', 'extensions' => $extensions, 'checkExtensionByMimeType' => true, 'wrongExtension' => 'Разрешены только файлы с расширениями '. implode(', ',$extensions)])->validate();
             if ($dyn->hasErrors()) {
                 Yii::$app->session->setFlash('warning', $dyn->getFirstError('file'));
                 return null;
