@@ -5,6 +5,7 @@ use common\models\User;
 use kartik\file\FileInput;
 use kartik\select2\Select2;
 use modules\portfolio\models\Portfolio;
+use modules\utils\models\UtilsGallery;
 use vova07\imperavi\Widget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -17,6 +18,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $tags array */
 /* @var $hiddenTags array */
+/* @var $galleries UtilsGallery[] */
 ?>
 
 <div class="portfolio-form">
@@ -118,6 +120,14 @@ use yii\widgets\ActiveForm;
 
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <h3>На данный момент тут используются галереи:</h3>
+            <?php foreach ($galleries as $gallery): ?>
+                <p><?= \common\models\Html::a($gallery->name, ['/utils/gallery/update', 'id' => $gallery->id]) ?></p>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success button-save']) ?>
@@ -129,7 +139,7 @@ use yii\widgets\ActiveForm;
         <?php if (!$model->isNewRecord): ?>
             <?= Html::a('Отзыв', Url::to(['/portfolio/default/view', 'id' => $model->id]),
                 ['class' => 'btn btn-warning', 'target' => '_blank']) ?>
-            <?= Html::a('На сайте', Url::to(Yii::$app->params['front'].'/portfolio/'.$model->slug),
+            <?= Html::a('На сайте', Url::to(Yii::$app->params['front'] . '/portfolio/' . $model->slug),
                 ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
         <?php endif; ?>
     </div>

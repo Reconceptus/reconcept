@@ -5,7 +5,6 @@ namespace modules\utils\helpers;
 
 use common\helpers\FileHelper;
 use common\helpers\ImageHelper;
-use modules\utils\models\Gallery;
 use common\models\Image;
 use modules\config\models\Config;
 use modules\utils\models\UtilsGallery;

@@ -11,6 +11,7 @@ use modules\portfolio\models\PortfolioSearch;
 use modules\portfolio\models\PortfolioTag;
 use modules\utils\helpers\ContentHelper;
 use modules\utils\helpers\GalleryHelper;
+use modules\utils\models\UtilsGallery;
 use Yii;
 use yii\base\Exception;
 use yii\filters\AccessControl;
@@ -199,10 +200,16 @@ class DefaultController extends Controller
         }
         $tags = ArrayHelper::map(PortfolioTag::find()->all(), 'id', 'name');
         $hiddenTags = ArrayHelper::map(HiddenTag::find()->all(), 'id', 'name');
+        $galleriesGuids = GalleryHelper::findBlocks($model->content);
+        $guids = array_map(function ($model) {
+            return trim($model);
+        }, $galleriesGuids);
+        $galleries = UtilsGallery::find()->distinct()->where(['in', 'code', $guids])->all();
         return $this->render('update', [
             'model'      => $model,
             'tags'       => $tags,
             'hiddenTags' => $hiddenTags,
+            'galleries'  => $galleries
         ]);
     }
 
@@ -260,9 +267,9 @@ class DefaultController extends Controller
         if (!empty($post['id'])) {
             $model = $this->findModel($post['id']);
             if ($model) {
-                if($model->to_main){
+                if ($model->to_main) {
                     $model->to_main = 0;
-                }else{
+                } else {
                     $model->to_main = 1;
                 }
                 if ($model->save()) {
