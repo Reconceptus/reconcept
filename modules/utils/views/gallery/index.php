@@ -29,7 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'tableOptions' => ['class' => 'table table-condensed table-striped'],
         'columns' => [
 
-            'id',
+            [
+                'attribute' => 'id',
+                'options'   => ['style' => 'width:50px'],
+                'filter'    => false
+            ],
             [
                 'headerOptions' => ['width' => 120],
                 'options'       => ['style' => 'width:120px'],
