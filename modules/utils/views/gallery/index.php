@@ -1,7 +1,9 @@
 <?php
 
 use modules\utils\models\UtilsGallery;
+use modules\utils\models\UtilsLayout;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
@@ -55,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         /* @var $model UtilsGallery */
                         return $model->layout ? $model->layout->name : '';
                     },
-                'filter'    => false
+                'filter'    =>ArrayHelper::map(UtilsLayout::find()->all(), 'id','name')
             ],
 
             ['class' => 'yii\grid\ActionColumn'],
