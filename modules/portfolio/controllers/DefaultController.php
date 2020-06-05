@@ -209,7 +209,7 @@ class DefaultController extends Controller
             'model'      => $model,
             'tags'       => $tags,
             'hiddenTags' => $hiddenTags,
-            'galleries'  => $galleries
+            'galleries'  => $galleries??[]
         ]);
     }
 
