@@ -14,6 +14,7 @@ use frontend\widgets\share\Share;
 use modules\config\models\Config;
 use modules\portfolio\models\Portfolio;
 use modules\utils\helpers\ContentHelper;
+use modules\utils\helpers\GalleryHelper;
 use yii\helpers\Url;
 
 /* @var $model Portfolio */
@@ -55,7 +56,7 @@ $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getH
                             <?= Share::widget() ?>
                             <div class="text-box--main">
                                 <div class="text-box">
-                                    <?= Config::getValue('insert_galleries') ? ContentHelper::parseBlock(ContentHelper::parseGallery($model->content)) : $model->content ?>
+                                    <?= Config::getValue('insert_galleries') ? ContentHelper::parseBlock(GalleryHelper::parseGallery($model->content)) : $model->content ?>
                                 </div>
                             </div>
                         </div>

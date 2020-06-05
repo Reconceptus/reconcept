@@ -8,6 +8,7 @@
 
 use modules\config\models\Config;
 use modules\utils\helpers\ContentHelper;
+use modules\utils\helpers\GalleryHelper;
 use yii\helpers\Url;
 
 /* @var $model \modules\utils\models\Page */
@@ -33,7 +34,7 @@ $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getH
                             <?= \frontend\widgets\share\Share::widget() ?>
                             <div class="text-box--main">
                                 <div class="text-box">
-                                    <?= ContentHelper::parseLink(Config::getValue('insert_galleries') ? ContentHelper::parseBlock(ContentHelper::parseGallery($model->text)) : $model->text) ?>
+                                    <?= ContentHelper::parseLink(Config::getValue('insert_galleries') ? ContentHelper::parseBlock(GalleryHelper::parseGallery($model->text)) : $model->text) ?>
                                 </div>
                             </div>
                         </div>

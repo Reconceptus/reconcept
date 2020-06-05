@@ -2,11 +2,13 @@
 
 namespace modules\blog\controllers;
 
+use common\helpers\Html;
 use common\helpers\ImageHelper;
 use modules\blog\models\Post;
 use modules\blog\models\PostSearch;
 use modules\blog\models\Tag;
 use modules\utils\helpers\ContentHelper;
+use modules\utils\helpers\GalleryHelper;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -132,7 +134,7 @@ class PostController extends Controller
         $post = Yii::$app->request->post();
 
         if ($model->load($post)) {
-            $model->text = ContentHelper::makeTypo($model->text);
+            $model->text = Html::makeTypo($model->text);
             // Добавляем автора и дату создания
             if ($model->isNewRecord && !$model->author_id) {
                 $model->author_id = Yii::$app->user->id;
@@ -164,6 +166,7 @@ class PostController extends Controller
             $tags = $post['Post'] && $post['Post']['tags'] ? $post['Post']['tags'] : [];
             $model->updateTags($tags);
             if ($model->save()) {
+                GalleryHelper::processBlocks($model->text);
                 Yii::$app->cache->delete('mainblog');
                 Yii::$app->session->setFlash('success', 'Post created successfully');
             } else {

@@ -2,6 +2,7 @@
 
 namespace modules\portfolio\controllers;
 
+use common\helpers\Html;
 use common\helpers\ImageHelper;
 use modules\portfolio\models\HiddenTag;
 use modules\portfolio\models\Portfolio;
@@ -9,6 +10,7 @@ use modules\portfolio\models\PortfolioReview;
 use modules\portfolio\models\PortfolioSearch;
 use modules\portfolio\models\PortfolioTag;
 use modules\utils\helpers\ContentHelper;
+use modules\utils\helpers\GalleryHelper;
 use Yii;
 use yii\base\Exception;
 use yii\filters\AccessControl;
@@ -138,7 +140,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @param $model
+     * @param $model Portfolio
      * @return array|string|Response
      * @throws Exception
      */
@@ -159,7 +161,7 @@ class DefaultController extends Controller
                     $model->author_id = Yii::$app->user->id;
                 }
             }
-            $model->content = ContentHelper::makeTypo($model->content);
+            $model->content = Html::makeTypo($model->content);
             $image = UploadedFile::getInstance($model, 'image');
             if ($image) {
                 $model->image = ImageHelper::uploadImage($model, $image, true);
@@ -188,6 +190,7 @@ class DefaultController extends Controller
             $hidden = $post['Portfolio'] && $post['Portfolio']['hiddenTags'] ? $post['Portfolio']['hiddenTags'] : [];
             $model->updateHiddenTags($hidden);
             $model->save();
+            GalleryHelper::processBlocks($model->content);
             if (isset($review)) {
                 $review->portfolio_id = $model->id;
                 $review->save();

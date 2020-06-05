@@ -1,5 +1,6 @@
 <?php
 
+use modules\utils\helpers\GalleryHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -35,5 +36,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?= \modules\utils\helpers\ContentHelper::parseGallery('{{ ' . $model->code . ' }}');?>
+    <?= GalleryHelper::parseGallery('{{ ' . $model->code . ' }}')?>
 </div>

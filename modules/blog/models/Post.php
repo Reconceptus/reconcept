@@ -3,12 +3,16 @@
 namespace modules\blog\models;
 
 use common\helpers\StringHelper;
+use common\models\Image;
 use common\models\MActiveRecord;
 use common\models\User;
+use Yii;
+use yii\base\Exception;
 use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "blog_post".
@@ -248,5 +252,19 @@ class Post extends MActiveRecord
             return '';
         }
         return $category->name;
+    }
+
+    /**
+     * @return int
+     * @throws Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\base\ErrorException
+     */
+    public function updateImages(): int
+    {
+        $guid = Yii::$app->request->post('guid');
+        $images = UploadedFile::getInstancesByName('images');
+        Image::addImages($this, $images, Image::TYPE_IMAGE, $guid);
+        return count($images);
     }
 }

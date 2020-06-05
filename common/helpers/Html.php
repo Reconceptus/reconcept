@@ -58,5 +58,21 @@ class Html extends \yii\helpers\Html
         return static::tag('img', '', $options);
     }
 
-
+    /**
+     * @param $text
+     * @return string|string[]|null
+     */
+    public static function makeTypo($text)
+    {
+//        $result = preg_replace_callback(
+//            '#(([\"]{2,})|(?![^\W])(\"))|([^\s][\"]+(?![\w]))#u',
+//            function ($matches) {
+//                if (count($matches) === 3) return "«»";
+//                else if ($matches[1]) return str_replace('"', "«", $matches[1]);
+//                else return str_replace('"', "»", $matches[4]);
+//            },
+//            $text
+//        );
+        return str_replace(' - ', ' — ', $text);
+    }
 }

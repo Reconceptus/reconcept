@@ -2,9 +2,11 @@
 
 namespace modules\services\controllers;
 
+use common\helpers\Html;
 use common\helpers\ImageHelper;
 use modules\services\models\Service;
 use modules\services\models\ServiceSearch;
+use modules\utils\helpers\ContentHelper;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -97,14 +99,17 @@ class ServiceController extends Controller
      */
     public function modify($model)
     {
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $image = UploadedFile::getInstance($model, 'image');
-            if ($image) {
-                $model->image = ImageHelper::uploadImage($model, $image);
-            } elseif (!empty($model->oldAttributes['image'])) {
-                $model->image = $model->oldAttributes['image'];
+        if ($model->load(Yii::$app->request->post())) {
+            $model->text = Html::makeTypo($model->text);
+            if ($model->save()) {
+                $image = UploadedFile::getInstance($model, 'image');
+                if ($image) {
+                    $model->image = ImageHelper::uploadImage($model, $image);
+                } elseif (!empty($model->oldAttributes['image'])) {
+                    $model->image = $model->oldAttributes['image'];
+                }
+                return $this->redirect(['update', 'id' => $model->id]);
             }
-            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('_form', [

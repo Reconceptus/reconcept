@@ -74,13 +74,14 @@ use yii\widgets\ActiveForm;
                     'lang'                     => 'ru',
                     'minHeight'                => 200,
                     'imageUpload'              => Url::to(['/file/editor-upload']),
+                    'imageUploadPath'          => Url::to(['/file/upload-gallery']),
                     'imageUploadErrorCallback' => new JsExpression('function(json){ alert(json.error); }'),
                     'buttons'                  => [
                         'html', 'formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist', 'outdent',
                         'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule'],
                     'plugins'                  => [
                         'counter', 'definedlinks', 'filemanager', 'fontcolor', 'fontfamily', 'fontsize', 'fullscreen',
-                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video'
+                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video', 'imageGallery'
                     ],
                 ]]) ?>
 
