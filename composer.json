@@ -30,7 +30,8 @@
         "kotchuprik/yii2-odnoklassniki-authclient": "*",
         "electrolinux/phpquery": "^0.9.6",
         "skeeks/yii2-mobile-detect": "^1.0",
-        "yiisoft/yii2-redis": "^2.0"
+        "yiisoft/yii2-redis": "^2.0",
+        "kartik-v/yii2-widget-colorinput": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master"

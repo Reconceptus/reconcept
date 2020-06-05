@@ -133,6 +133,9 @@ class GalleryHelper
                 }
                 $resultString = str_replace('%items%', $itemsContent, $layout->layout);
             }
+            if ($gallery->background) {
+                $resultString = str_replace('#background#', $gallery->background, $resultString);
+            }
             $params = ArrayHelper::getValue($block, 2);
             if ($params) {
                 $paramsArr = explode(',', $params);

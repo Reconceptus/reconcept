@@ -2,6 +2,7 @@
 
 use common\helpers\ImageHelper;
 use common\models\Image;
+use kartik\color\ColorInput;
 use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -77,6 +78,10 @@ $guid = Yii::$app->security->generateRandomString(10);
                 <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'layout_id')->dropDownList(\modules\utils\models\UtilsLayout::getList()) ?>
+
+                <?= $form->field($model, 'background')->widget(ColorInput::classname(), [
+                    'options' => ['placeholder' => 'Выберите цвет фона', 'readonly' => true],
+                ]) ?>
             </div>
         </div>
 

@@ -15,6 +15,7 @@ use yii\web\UploadedFile;
  * @property int $id
  * @property string $code
  * @property string $name
+ * @property string $background
  * @property int $layout_id
  * @property Image[] $images
  * @property UtilsLayout[] $layout
@@ -36,6 +37,7 @@ class UtilsGallery extends \yii\db\ActiveRecord
     {
         return [
             [['code', 'name'], 'string', 'max' => 150],
+            [['background'], 'string', 'max' => 10],
             [['layout_id'], 'integer'],
             [['layout_id'], 'exist', 'skipOnError' => true, 'targetClass' => UtilsLayout::className(), 'targetAttribute' => ['layout_id' => 'id']],
         ];
@@ -47,10 +49,11 @@ class UtilsGallery extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'        => 'ID',
-            'code'      => 'Код',
-            'name'      => 'Название',
-            'layout_id' => 'Шаблон',
+            'id'         => 'ID',
+            'code'       => 'Код',
+            'name'       => 'Название',
+            'background' => 'Фон',
+            'layout_id'  => 'Шаблон',
         ];
     }
 
