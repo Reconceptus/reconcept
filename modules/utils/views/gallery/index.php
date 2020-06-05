@@ -24,10 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'filterModel'  => $searchModel,
         'options'      => ['class' => 'table-responsive'],
         'tableOptions' => ['class' => 'table table-condensed table-striped'],
-        'columns' => [
+        'columns'      => [
 
             [
                 'attribute' => 'id',
@@ -48,6 +48,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'code',
             'name',
+            [
+                'attribute' => 'layout_id',
+                'value'     =>
+                    static function ($model) {
+                        /* @var $model UtilsGallery */
+                        return $model->layout ? $model->layout->name : '';
+                    },
+                'filter'    => false
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

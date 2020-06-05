@@ -18,7 +18,7 @@ use yii\web\UploadedFile;
  * @property string $background
  * @property int $layout_id
  * @property Image[] $images
- * @property UtilsLayout[] $layout
+ * @property UtilsLayout $layout
  */
 class UtilsGallery extends \yii\db\ActiveRecord
 {
