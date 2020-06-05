@@ -120,6 +120,7 @@ use yii\widgets\ActiveForm;
 
         </div>
     </div>
+    <?php if($galleries):?>
     <div class="row">
         <div class="col-xs-6">
             <h3>На данный момент тут используются галереи:</h3>
@@ -128,6 +129,7 @@ use yii\widgets\ActiveForm;
             <?php endforeach; ?>
         </div>
     </div>
+    <?php endif; ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success button-save']) ?>
