@@ -2,7 +2,9 @@
 
 namespace modules\utils\models;
 
+use common\helpers\ImageHelper;
 use common\models\Image;
+use modules\config\models\Config;
 use Yii;
 use yii\base\Exception;
 use yii\web\UploadedFile;
@@ -81,5 +83,20 @@ class UtilsGallery extends \yii\db\ActiveRecord
         $images = UploadedFile::getInstancesByName('images');
         Image::addImages($this, $images, Image::TYPE_IMAGE, $guid);
         return count($images);
+    }
+
+    public function getPreview()
+    {
+        $images = $this->images;
+        if ($images) {
+            $image = $this->images[0];
+            if (!$image->thumb) {
+                $image->thumb = ImageHelper::crop($image->image, true, null, Config::getValue('cropPreviewWidth'),
+                    Config::getValue('cropPreviewHeight'));
+                $image->save();
+            }
+            return $image->thumb;
+        }
+        return Yii::$app->params['defaultImage'];
     }
 }

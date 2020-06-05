@@ -1,5 +1,6 @@
 <?php
 
+use modules\utils\models\UtilsGallery;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -27,9 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'options'      => ['class' => 'table-responsive'],
         'tableOptions' => ['class' => 'table table-condensed table-striped'],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            [
+                'headerOptions' => ['width' => 120],
+                'options'       => ['style' => 'width:120px'],
+                'attribute'     => 'images',
+                'format'        => 'html',
+                'value'         =>
+                    static function ($model) {
+                        /* @var $model UtilsGallery */
+                        return Html::img($model->preview, ['class' => 'admin-grid-image']);
+                    },
+                'filter'        => false
+            ],
             'code',
             'name',
 
