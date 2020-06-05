@@ -50,6 +50,30 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="row">
         <div class="col-xs-9">
+            <?= $form->field($model, 'content')->textarea()->widget(Widget::className(), [
+                'settings' => [
+                    'lang'                     => 'ru',
+                    'minHeight'                => 200,
+                    'imageUpload'              => Url::to(['/file/editor-upload']),
+                    'imageUploadPath'          => Url::to(['/file/upload-gallery']),
+                    'imageUploadErrorCallback' => new JsExpression('function(json){ alert(json.error); }'),
+                    'buttons'                  => [
+                        'html', 'formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist', 'outdent',
+                        'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule'
+                    ],
+                    'plugins'                  => [
+                        'counter', 'definedlinks', 'filemanager', 'fontcolor', 'fontfamily', 'fontsize', 'fullscreen',
+                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video', 'imageGallery'
+                    ],
+                ]
+            ]) ?>
+            <?php if($galleries):?>
+                <p>На данный момент тут используются галереи:</p>
+                <?php foreach ($galleries as $gallery): ?>
+                    <p><?= \common\models\Html::a($gallery->name, ['/utils/gallery/update', 'id' => $gallery->id]) ?></p>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
@@ -87,30 +111,6 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'author_id')->dropDownList(User::getAuthors()) ?>
-
-            <?= $form->field($model, 'content')->textarea()->widget(Widget::className(), [
-                'settings' => [
-                    'lang'                     => 'ru',
-                    'minHeight'                => 200,
-                    'imageUpload'              => Url::to(['/file/editor-upload']),
-                    'imageUploadPath'          => Url::to(['/file/upload-gallery']),
-                    'imageUploadErrorCallback' => new JsExpression('function(json){ alert(json.error); }'),
-                    'buttons'                  => [
-                        'html', 'formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist', 'outdent',
-                        'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule'
-                    ],
-                    'plugins'                  => [
-                        'counter', 'definedlinks', 'filemanager', 'fontcolor', 'fontfamily', 'fontsize', 'fullscreen',
-                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video', 'imageGallery'
-                    ],
-                ]
-            ]) ?>
-            <?php if($galleries):?>
-                <h3>На данный момент тут используются галереи:</h3>
-                <?php foreach ($galleries as $gallery): ?>
-                    <p><?= \common\models\Html::a($gallery->name, ['/utils/gallery/update', 'id' => $gallery->id]) ?></p>
-                <?php endforeach; ?>
-            <?php endif; ?>
 
             <?= $form->field($model, 'status')->dropDownList(Portfolio::STATUS_LIST) ?>
 
