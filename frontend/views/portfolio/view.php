@@ -34,7 +34,7 @@ $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getH
                         <h1 class="page-title--text"><?= Html::encode($this->title) ?></h1>
                         <?php if (Yii::$app->user->can('blog_post')): ?>
                             <span style="margin-left: 25px"><a target="_blank"
-                                                               href="<?= Yii::$app->params['back'].'/blog/post/update?id='.$model->id ?>">Редактировать</a></span>
+                                                               href="<?= Yii::$app->params['back'].'/utils/gallery/update?id='.$model->id ?>">Редактировать</a></span>
                         <?php endif; ?>
                     </div>
                 </div>
