@@ -201,3 +201,7 @@ ul.treeview-menu {
     top: 70px;
     right: 10px;
 }
+.redactor-editor img[style*=float] {
+    max-width: 40%;
+    clear: left;
+}
