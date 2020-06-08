@@ -28,16 +28,8 @@ $(function () {
                     this.imageGallery.initImageUploadForm();
 
                     //Create CTA buttons set
-                    const createSliderButton = this.modal.createActionButton('Slider');
-                    createSliderButton.on('click', this.imageGallery.createSlider);
-                    const createBackButton = this.modal.createActionButton('Image back');
-                    createBackButton.on('click', this.imageGallery.createBack);
-                    const createFullButton = this.modal.createActionButton('Image full');
-                    createFullButton.on('click', this.imageGallery.createFull);
-                    const create4imagesButton = this.modal.createActionButton('4 images');
-                    create4imagesButton.on('click', this.imageGallery.create4images);
-                    const create2picturesButton = this.modal.createActionButton('2 pictures');
-                    create2picturesButton.on('click', this.imageGallery.create2pictures);
+                    const createGalleryButton = this.modal.createActionButton('Add gallery');
+                    createGalleryButton.on('click', this.imageGallery.createGallery);
 
                     this.modal.show();
                 },
@@ -85,34 +77,14 @@ $(function () {
                     this.modalImageUploadingArea.fileinput('upload');
                     this.modal.close();
                     this.selection.restore();
-                    this.insert.text('{{'+ this.galleryGuid + ';' + type.toUpperCase()+'}}');
+                    this.insert.text('{{'+ this.galleryGuid + ';' +'}}');
                 },
-                createSlider: function () {
+                createGallery: function () {
                     if (this.modalImageUploadingArea && this.modalImageUploadingArea[0].files.length > 0) {
-                        this.imageGallery.postImageList('slider');
-                    }
-                },
-                createBack: function () {
-                    if (this.modalImageUploadingArea && this.modalImageUploadingArea[0].files.length > 0) {
-                        this.imageGallery.postImageList('imagebackground');
-                    }
-                },
-                createFull: function () {
-                    if (this.modalImageUploadingArea && this.modalImageUploadingArea[0].files.length > 0) {
-                        this.imageGallery.postImageList('imagefull');
-                    }
-                },
-                create4images: function () {
-                    if (this.modalImageUploadingArea && this.modalImageUploadingArea[0].files.length > 0) {
-                        this.imageGallery.postImageList('4images');
-                    }
-                },
-                create2pictures: function () {
-                    if (this.modalImageUploadingArea && this.modalImageUploadingArea[0].files.length > 0) {
-                        this.imageGallery.postImageList('2pictures');
+                        this.imageGallery.postImageList('gallery');
                     }
                 },
             };
         };
     }
-})
+});
