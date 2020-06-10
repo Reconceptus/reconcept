@@ -24,6 +24,7 @@ $author = $model->author;
 $this->title = $model->title;
 $this->registerMetaTag(['name' => 'description', 'content' => $model->description]);
 $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getHostInfo().'/'.Yii::$app->request->getPathInfo()]);
+$this->registerMetaTag(['name' => 'og:image', 'content' => $model->image]);
 ?>
 <div id="main" class="main">
 
