@@ -55,7 +55,16 @@ $guid = Yii::$app->security->generateRandomString(10);
                         'showUpload'        => true,
                         'showDrag'          => true,
                         'showBrowse'        => true,
-                        'browseLabel'       => 'Выбрать фото'
+                        'browseLabel'       => 'Выбрать фото',
+                        'layoutTemplates'   => [
+                            'close'      => '',
+                            'footer'     => '<div class="file-thumbnail-footer">
+                                <div class="file-caption-name">
+                                    <input type="text" class="kv-input kv-new form-control input-sm form-control-sm text-center" name="header" value="{caption}" placeholder="Название" />
+                                </div>
+                                {progress} {actions}
+                            </div>',
+                        ],
                     ],
                     'pluginEvents'  => [
                         'filesorted'        => new JsExpression('function(event,params){

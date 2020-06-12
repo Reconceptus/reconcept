@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adm
- * Date: 19.12.2018
- * Time: 13:37
- */
-
 use common\helpers\DateTimeHelper;
 use frontend\widgets\comments\Comments;
 use frontend\widgets\forms\Forms;
