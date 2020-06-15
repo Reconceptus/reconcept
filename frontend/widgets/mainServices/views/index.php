@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: venod
- * Date: 01.02.2019
- * Time: 16:34
- */
 /* @var \modules\services\models\ServiceCategory[] $models */
 ?>
 <div class="home-services">

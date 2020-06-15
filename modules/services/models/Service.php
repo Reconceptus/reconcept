@@ -41,7 +41,7 @@ class Service extends ActiveRecord
     public function getUrl()
     {
         if ($this->_url === null)
-            $this->_url = Url::to('@web/service/' . $this->slug);
+            $this->_url = Url::to('@web/services/' . $this->slug);
         return $this->_url;
     }
 
