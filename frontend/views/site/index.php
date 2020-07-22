@@ -1,9 +1,10 @@
 <?php
 
+use modules\config\models\Config;
 use yii\helpers\Url;
 
-$this->title = 'Reconcept';
-$this->registerMetaTag(['name' => 'description', 'content' => 'Reconcept - web-студия']);
+$this->title = Config::getValue('mainPageTitle');
+$this->registerMetaTag(['name' => 'description', 'content' => Config::getValue('mainPageDescription')]);
 $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getHostInfo().'/'.Yii::$app->request->getPathInfo()]);
 ?>
 <div id="main" class="main">
