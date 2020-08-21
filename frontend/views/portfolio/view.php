@@ -31,7 +31,7 @@ $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getH
             <div class="text-section--main large">
                 <div class="content">
                     <div class="page-title">
-                        <h1 class="page-title--text"><?= Html::encode($this->title) ?></h1>
+                        <h1 class="page-title--text"><?= Html::encode($model->full_name) ?></h1>
                         <?php if (Yii::$app->user->can('blog_post')): ?>
                             <span style="margin-left: 25px"><a target="_blank"
                                                                href="<?= Yii::$app->params['back'].'/portfolio/default/update?id='.$model->id ?>">Редактировать</a></span>
