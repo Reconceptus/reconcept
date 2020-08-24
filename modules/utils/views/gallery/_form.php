@@ -84,7 +84,7 @@ $guid = Yii::$app->security->generateRandomString(10);
             <div class="col-xs-12">
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'code')->textInput(['maxlength' => true, 'disabled'=>true]) ?>
 
                 <?= $form->field($model, 'layout_id')->dropDownList(\modules\utils\models\UtilsLayout::getList()) ?>
 
