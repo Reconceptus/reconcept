@@ -7,6 +7,7 @@ use common\models\MActiveRecord;
 use Imagine\Image\Box;
 use Imagine\Image\ManipulatorInterface;
 use Imagine\Image\Point;
+use modules\blog\models\Post;
 use modules\config\models\Config;
 use modules\shop\models\Product;
 use Yii;
@@ -52,7 +53,7 @@ class ImageHelper
         foreach ($data as $item) {
             /* @var $item Image */
             $result[] = [
-                'caption' => $item->alt ?? '', 'key' => $item->id, 'class' => $item->class_full,
+                'caption' => $item->alt ?? '', 'key' => $item->id, 'class' => $item->class,
                 'user_id' => $model->hasAttribute('user_id') ? $model->user_id : null
             ];
         }
@@ -81,7 +82,7 @@ class ImageHelper
             'showUpload'           => false,
             'showDrag'             => false,
             'showBrowse'           => false,
-            'deleteUrl'            => '/file/delete-single-image?field='.$fieldName,
+            'deleteUrl'            => '/en/file/delete-single-image?field='.$fieldName,
             'deleteExtraData'      => [
                 'key'   => $model->id,
                 'class' => $model->className()
@@ -152,7 +153,7 @@ class ImageHelper
     }
 
     /**
-     * @param $model ActiveRecord
+     * @param $model ActiveRecord|Post
      * @param $file UploadedFile
      * @param  bool  $hasId
      * @param  bool  $addWatermark
@@ -189,13 +190,15 @@ class ImageHelper
 
     public static function watermark($path)
     {
-        $watermark = Img::getImagine()->open(Yii::getAlias('@frontend/web/images/watermark.png'));
-        $image = Img::getImagine()->open($path);
-        $size = $image->getSize();
-        $watermark = $watermark->resize(new Box($size->getWidth(), $size->getHeight()));
-        $startPositionWatermark = new Point(0, 0);
-        $image->paste($watermark, $startPositionWatermark);
-        $image->save(null, ['quality' => 90]);
+        if (file_exists(Yii::getAlias('@frontend/web/images/watermark.png'))) {
+            $watermark = Img::getImagine()->open(Yii::getAlias('@frontend/web/images/watermark.png'));
+            $image = Img::getImagine()->open($path);
+            $size = $image->getSize();
+            $watermark = $watermark->resize(new Box($size->getWidth(), $size->getHeight()));
+            $startPositionWatermark = new Point(0, 0);
+            $image->paste($watermark, $startPositionWatermark);
+            $image->save(null, ['quality' => 90]);
+        }
     }
 
     /**
