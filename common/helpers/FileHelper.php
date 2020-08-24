@@ -6,6 +6,9 @@ namespace common\helpers;
 use modules\config\models\Config;
 use Yii;
 use yii\base\DynamicModel;
+use yii\base\ErrorException;
+use yii\base\Exception;
+use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
 
 class FileHelper extends \yii\helpers\FileHelper
@@ -13,12 +16,10 @@ class FileHelper extends \yii\helpers\FileHelper
     /**
      * @param $model ActiveRecord
      * @param $file
-     * @param $width
-     * @param $height
      * @param bool $usePath
-     * @param bool $crop
      * @return string|null
-     * @throws \yii\base\Exception
+     * @throws Exception
+     * @throws InvalidConfigException
      */
     public static function uploadFile($model, $file, $usePath = false)
     {
@@ -26,10 +27,7 @@ class FileHelper extends \yii\helpers\FileHelper
             $dir = Yii::getAlias('@files/' . $model->formName());
             $path = $usePath ? '/' . date('ymdHis') . '/' : '/';
             $dyn = new DynamicModel(compact('file'));
-            $maxSize = 1024 * 1024 * 30;
-            $extensions = ['jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx', 'pdf', 'odt', 'ods', 'odp', 'ppt', 'pptx'];
-            $dyn->addRule('file', 'file',
-                ['maxSize' => $maxSize, 'tooBig' => 'Файл не может быть больше '.$maxSize / (1024 * 1024 * 30).'MB', 'extensions' => $extensions, 'checkExtensionByMimeType' => true, 'wrongExtension' => 'Разрешены только файлы с расширениями '. implode(', ',$extensions)])->validate();
+            $dyn->addRule('file', 'file')->validate();
             if ($dyn->hasErrors()) {
                 Yii::$app->session->setFlash('warning', $dyn->getFirstError('file'));
                 return null;
@@ -84,6 +82,10 @@ class FileHelper extends \yii\helpers\FileHelper
         return $pluginOptions;
     }
 
+    /**
+     * @param string $ext
+     * @return string
+     */
     public static function getFileType(string $ext)
     {
         $types = [
@@ -124,4 +126,43 @@ class FileHelper extends \yii\helpers\FileHelper
             return false;
         }
     }
+
+    /**
+     * @param string $path
+     * @param int $deleteOlderThan
+     * @return bool
+     * @throws ErrorException
+     */
+    public static function deleteEmptyPaths($path = '', $deleteOlderThan = 0)
+    {
+        if ($path) {
+            $removeElements = ['.', '..'];
+            $dirs = scandir($path);
+            foreach ($dirs as $k => $dir) {
+                if (in_array($dir, $removeElements, true)) {
+                    unset($dirs[$k]);
+                }
+            }
+            foreach ($dirs as $k => $dir) {
+                $dirPath = $path . '/' . $dir;
+                if (is_dir($dirPath)) {
+                    if (self::deleteEmptyPaths($dirPath, $deleteOlderThan)) {
+                        unset($dirs[$k]);
+                    }
+                } elseif ($deleteOlderThan > 0 && is_file($dirPath)) {
+                    $fileWasChanged = filemtime($dirPath);
+                    $timeToDelete = time() - $deleteOlderThan;
+                    if ($fileWasChanged < $timeToDelete) {
+                        self::unlink($dirPath);
+                    }
+                }
+            }
+            if (count($dirs) === 0) {
+                self::removeDirectory($path);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
