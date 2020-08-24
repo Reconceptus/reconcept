@@ -12,6 +12,7 @@ use yii\base\DynamicModel;
 use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\MethodNotAllowedHttpException;
@@ -173,7 +174,8 @@ class FileController extends Controller
     {
         $post = Yii::$app->request->post();
         if (!empty($post['key'])) {
-            $model = Image::findOne(['id' => $post['key'], 'type' => $post['type']]);
+            $type = ArrayHelper::getValue($post, 'type');
+            $model = Image::findOne(['id' => ArrayHelper::getValue($post, 'key'), 'type' => $type??Image::TYPE_IMAGE]);
             if ($model) {
                 FileHelper::delete($model->image);
                 FileHelper::delete($model->thumb);
@@ -193,7 +195,7 @@ class FileController extends Controller
         }
         if (!empty($post['key']) && !empty($post['class'])) {
             $class = $post['class'];
-            $model = $class::findOne(['id' => (int)$post['key']]);
+            $model = $class::findOne(['id' => (int) $post['key']]);
             if ($model) {
                 FileHelper::delete($model->$field);
                 $model->$field = '';
@@ -292,14 +294,14 @@ class FileController extends Controller
                 Yii::$app->session->setFlash('warning', $dyn->getFirstError('imageFile'));
                 return '';
             }
-            $directory = Yii::getAlias('@frontend/web/uploads/temp') . '/' . Yii::$app->session->id . '/' . $guid . '/' . $type . '/';
+            $directory = Yii::getAlias('@frontend/web/uploads/temp').'/'.Yii::$app->session->id.'/'.$guid.'/'.$type.'/';
             if (!is_dir($directory)) {
                 FileHelper::createDirectory($directory);
             }
             $fileName = $imageFile->name;
-            $filePath = $directory . $fileName;
+            $filePath = $directory.$fileName;
             if ($imageFile->saveAs($filePath)) {
-                $path = Yii::getAlias('@frontend/web/uploads/temp') . '/' . Yii::$app->session->id . '/' . $guid . '/' . $type . '/' . $fileName;
+                $path = Yii::getAlias('@frontend/web/uploads/temp').'/'.Yii::$app->session->id.'/'.$guid.'/'.$type.'/'.$fileName;
                 ImageHelper::watermark($path);
                 ImageHelper::crop($path, true, null,
                     Config::getValue('cropWidth'),
@@ -337,14 +339,14 @@ class FileController extends Controller
                 Yii::$app->session->setFlash('warning', $dyn->getFirstError('imageFile'));
                 return '';
             }
-            $directory = Yii::getAlias('@frontend') . '/web/uploads/temp/' . Yii::$app->session->id . '/' . $guid . '/';
+            $directory = Yii::getAlias('@frontend').'/web/uploads/temp/'.Yii::$app->session->id.'/'.$guid.'/';
             if (!is_dir($directory)) {
                 FileHelper::createDirectory($directory);
             }
             $fileName = $imageFile->name;
-            $filePath = $directory . $fileName;
+            $filePath = $directory.$fileName;
             if ($imageFile->saveAs($filePath)) {
-                $path = $directory . $fileName;
+                $path = $directory.$fileName;
                 ImageHelper::watermark($path);
                 ImageHelper::crop($path, true, null,
                     Config::getValue('cropWidth'),
