@@ -109,7 +109,9 @@ class FileHelper extends \yii\helpers\FileHelper
     {
         $file = Yii::getAlias('@frontend/web') . $file;
         try {
-            unlink($file);
+            if(is_file($file)) {
+                unlink($file);
+            }
             if ($deletePath) {
                 $fileNameArr = explode('/', $file);
                 unset($fileNameArr[count($fileNameArr) - 1]);
