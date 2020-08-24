@@ -17,7 +17,7 @@
                     <h1 class="title"><?= $model->quote ?></h1>
                     <div class="auth"><?= $model->sign ?></div>
                 </figcaption>
-                <div class="logo">
+                <div class="logo" style="display: none">
                     <svg xmlns="http://www.w3.org/2000/svg">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-reconcept"/>
                     </svg>
