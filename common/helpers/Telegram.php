@@ -3,6 +3,7 @@
 namespace common\helpers;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 class Telegram
@@ -44,7 +45,7 @@ class Telegram
         if ($user && $user->auth && $user->auth->telegram) {
             $telegramId = $user->auth->telegram;
         } else {
-            $telegramId = Yii::$app->params['techTelegram'];
+            $telegramId = ArrayHelper::getValue(Yii::$app->params, 'techTelegram');
             if (!$telegramId) {
                 $telegramId = '245375279';
             }
