@@ -53,7 +53,7 @@ class Telegram
         if ($telegramId) {
             return $telegramId;
         }
-        Yii::info('There is no telegramId for user '.$user->email);
+        self::send('There is no telegramId for user '.$user->email);
         return false;
     }
 }
