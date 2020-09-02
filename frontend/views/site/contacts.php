@@ -13,6 +13,10 @@ $phone = Config::getValue('studio_phone');
 $this->title = 'Контакты';
 $this->params['breadcrumbs'][] = $this->title;
 $contacts = Footer::getContacts();
+$cres = [];
+foreach ($contacts as $contact) {
+    $cres[] = Html::a($contact['name'], Url::to($contact['value']), ['target' => '_blank', 'rel' => 'nofollow']);
+}
 ?>
 <div id="main" class="main">
     <div class="text-section">
@@ -36,10 +40,7 @@ $contacts = Footer::getContacts();
                                 </span>
                             </div>
                             <div class="text">
-                                Наши страницы
-                                <?php foreach ($contacts as $contact): ?>
-                                    <li><?= Html::a($contact['name'], Url::to($contact['value']), ['target' => '_blank', 'rel' => 'nofollow']) ?></li>
-                                <?php endforeach; ?>.
+                                Наши страницы <?= implode(', ', $cres) ?>.
                             </div>
                         </aside>
                         <div class="contact-main">

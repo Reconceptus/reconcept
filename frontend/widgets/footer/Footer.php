@@ -29,12 +29,11 @@ class Footer extends Widget
 
     public static function getContacts()
     {
-        $contacts = Config::find()->alias('c')->select(['c.name', 'c.value'])
+        return Config::find()->alias('c')->select(['c.name', 'c.value'])
             ->innerJoin(Config::tableName() . ' c1', 'c.parent_id=c1.id')
             ->where(['c1.slug' => 'contacts'])->andWhere(['is', 'c1.parent_id', null])
             ->andWhere(['and', ['like', 'c.slug', 'social'], ['is not', 'c.value', null], ['!=', 'c.value', '']])->asArray()
             ->all();
-        return $contacts;
     }
 
     public function getServices()
