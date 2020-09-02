@@ -1,6 +1,9 @@
 <?php
 
+use frontend\widgets\footer\Footer;
 use modules\config\models\Config;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -9,7 +12,7 @@ $phone = Config::getValue('studio_phone');
 
 $this->title = 'Контакты';
 $this->params['breadcrumbs'][] = $this->title;
-
+$contacts = Footer::getContacts();
 ?>
 <div id="main" class="main">
     <div class="text-section">
@@ -17,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="text-section--main">
                 <div class="content">
                     <div class="page-title">
-                        <h1 class="page-title--text"><?=Config::getValue('contact_page_title')?></h1>
+                        <h1 class="page-title--text"><?= Config::getValue('contact_page_title') ?></h1>
                     </div>
                 </div>
             </div>
@@ -33,7 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </span>
                             </div>
                             <div class="text">
-                                <?= Config::getValue('studio_contact_text') ?>
+                                Наши страницы
+                                <?php foreach ($contacts as $contact): ?>
+                                    <li><?= Html::a($contact['name'], Url::to($contact['value']), ['target' => '_blank', 'rel' => 'nofollow']) ?></li>
+                                <?php endforeach; ?>.
                             </div>
                         </aside>
                         <div class="contact-main">

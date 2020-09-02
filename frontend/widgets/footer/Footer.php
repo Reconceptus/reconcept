@@ -22,12 +22,12 @@ class Footer extends Widget
     public function run()
     {
         $content = \Yii::$app->cache->getOrSet('contacts', function () {
-            return $this->render($this->viewName, ['contacts' => $this->getContacts(), 'services' => $this->getServices()]);
+            return $this->render($this->viewName, ['contacts' => self::getContacts(), 'services' => $this->getServices()]);
         }, 60 * 60 * 24);
         return $content;
     }
 
-    public function getContacts()
+    public static function getContacts()
     {
         $contacts = Config::find()->alias('c')->select(['c.name', 'c.value'])
             ->innerJoin(Config::tableName() . ' c1', 'c.parent_id=c1.id')
@@ -39,7 +39,6 @@ class Footer extends Widget
 
     public function getServices()
     {
-        $contacts = Service::find()->select(['slug', 'name'])->where(['to_footer' => 1])->asArray()->all();
-        return $contacts;
+        return Service::find()->select(['slug', 'name'])->where(['to_footer' => 1])->asArray()->all();
     }
 }
