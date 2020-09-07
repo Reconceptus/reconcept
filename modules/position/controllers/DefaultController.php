@@ -2,6 +2,7 @@
 
 namespace modules\position\controllers;
 
+use common\helpers\Telegram;
 use modules\position\models\PositionLog;
 use modules\position\models\PositionLogSearch;
 use modules\position\models\PositionRequest;
@@ -156,5 +157,10 @@ class DefaultController extends Controller
             Yii::$app->session->setFlash('Позиция в поиске: '.$pos);
         }
         return $this->redirect('index');
+    }
+
+    public function actionTelegramTest()
+    {
+        Telegram::send('Test '.date('Y-m-d H:i:s'));
     }
 }
