@@ -21,9 +21,7 @@ class PositionRequest extends MActiveRecord
     public const DEPTH_LIST = [
         100 => 100,
         200 => 200,
-        300 => 300,
-        400 => 400,
-        500 => 500
+        300 => 300
     ];
 
     public const STATUS_ACTIVE = 1;

@@ -79,6 +79,8 @@ class PositionLog extends MActiveRecord
             $res = self::parsePage($domain, simplexml_load_string(self::getYandexPage($q, $page)));
             if ($res) {
                 $result = ($page - 1) * 100 + $res;
+            }elseif ($res === null){
+                break;
             }
         }
         $model = new self();
