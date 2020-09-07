@@ -45,6 +45,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'    => PositionRequest::STATUS_LIST
             ],
             ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class'    => 'yii\grid\ActionColumn',
+                'template' => '{position}',
+                'buttons'  => [
+                    'position' => function ($url, $model) {
+                        return 'Обновить';
+                    },
+                ]
+            ],
         ],
     ]); ?>
 </div>

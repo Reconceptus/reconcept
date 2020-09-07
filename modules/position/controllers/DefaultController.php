@@ -113,7 +113,7 @@ class DefaultController extends Controller
         $q = ArrayHelper::getValue($post, 'q');
         $domain = ArrayHelper::getValue($post, 'domain');
         if ($post) {
-            $position = PositionLog::getPosition($q, $domain, 100*(int)$depth);
+            $position = PositionLog::getPosition($q, $domain, 100 * (int) $depth);
         }
         return $this->render('find', ['position' => $position, 'q' => $q, 'depth' => $depth, 'domain' => $domain]);
     }
@@ -146,5 +146,15 @@ class DefaultController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionPosition($id)
+    {
+        $model = $this->findModel((int) $id);
+        if ($model) {
+            $pos = $model->getPosition();
+            Yii::$app->session->setFlash('Позиция в поиске: '.$pos);
+        }
+        return $this->redirect('index');
     }
 }
