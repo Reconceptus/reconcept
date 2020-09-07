@@ -19,11 +19,11 @@ use common\models\MActiveRecord;
 class PositionRequest extends MActiveRecord
 {
     public const DEPTH_LIST = [
-        1 => 100,
-        2 => 200,
-        3 => 300,
-        4 => 400,
-        5 => 500
+        100 => 100,
+        200 => 200,
+        300 => 300,
+        400 => 400,
+        500 => 500
     ];
 
     public const STATUS_ACTIVE = 1;
@@ -81,7 +81,7 @@ class PositionRequest extends MActiveRecord
 
     public function getPosition()
     {
-        $result = PositionLog::getPosition($this->query, $this->domain, $this->depth * 100, $this->id);
+        $result = PositionLog::getPosition($this->query, $this->domain, $this->depth, $this->id);
         $this->last_result = $result;
         $this->save();
         return $result;
