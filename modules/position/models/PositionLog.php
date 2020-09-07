@@ -124,22 +124,25 @@ class PositionLog extends MActiveRecord
         return 0;
     }
 
-    public static function getYandexPage($q, $page = 1)
+    public static function getYandexPage($q, $page = 0)
     {
         $url = 'https://yandex.ru/search/xml';
         $client = new Client(['responseConfig' => ['format' => Client::FORMAT_XML],]);
+        $data =[
+            'user'    => Config::getValue('position_yandex_user'),
+            'key'     => Config::getValue('position_yandex_key'),
+            'l10n'    => 'ru',
+            'sortby'  => 'rlv',
+            'query'   => $q,
+            'groupby' => 'mode=flat.groups-on-page=100.docs-in-group=1'
+        ];
+        if($page){
+            $data['page'] = $page;
+        }
         $response = $client->createRequest()
             ->setMethod('get')
             ->setUrl($url)
-            ->setData([
-                'user'    => Config::getValue('position_yandex_user'),
-                'key'     => Config::getValue('position_yandex_key'),
-                'l10n'    => 'ru',
-                'sortby'  => 'rlv',
-                'query'   => $q,
-                'page'    => $page,
-                'groupby' => 'mode=flat.groups-on-page=100.docs-in-group=1'
-            ])
+            ->setData($data)
             ->send();
         if ($response->isOk) {
             $fileName = date('YmdHis', time()).'_'.mb_substr(StringHelper::translitString($q), 0, 100).'.xml';
