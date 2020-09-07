@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class'    => 'yii\grid\ActionColumn',
                 'template' => '{position}',
                 'buttons'  => [
-                    'review' => function ($url, $model) {
+                    'position' => function ($url, $model) {
                         return Html::a('<span class="fa fa-handshake-o"></span>',
                             Url::to(['/position/default/position', 'id' => $model->id]));
                     },
