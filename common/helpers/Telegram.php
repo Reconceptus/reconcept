@@ -10,7 +10,13 @@ class Telegram
 {
     public static function send($text, $user = null)
     {
-        $telegramId = self::getAddress($user);
+        $telegramId = null;
+        if(is_int($user)){
+            $telegramId = $user;
+        }
+        if(!$telegramId){
+            $telegramId = self::getAddress($user);
+        }
         if ($telegramId) {
             if (!is_string($text)) {
                 $text = Json::encode($text);
