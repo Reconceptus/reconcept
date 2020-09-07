@@ -75,7 +75,7 @@ class PositionLog extends MActiveRecord
     public static function getPosition($q, $domain, $depth = 100, $request_id = 0)
     {
         $result = 0;
-        for ($page = 1; $page <= $depth / 100; $page++) {
+        for ($page = 0; $page < $depth / 100; $page++) {
             $res = self::parsePage($domain, simplexml_load_string(self::getYandexPage($q, $page)));
             if ($res) {
                 $result = ($page - 1) * 100 + $res;
