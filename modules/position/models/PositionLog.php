@@ -82,6 +82,7 @@ class PositionLog extends MActiveRecord
             }elseif ($res === null){
                 break;
             }
+            sleep(2);
         }
         $model = new self();
         $model->domain = $domain;
