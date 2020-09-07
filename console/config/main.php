@@ -33,6 +33,7 @@ return [
                 Yii::getAlias('@modules') . '/utils/migrations',
                 Yii::getAlias('@modules') . '/services/migrations',
                 Yii::getAlias('@modules') . '/feedback/migrations',
+                Yii::getAlias('@modules') . '/position/migrations',
                 Yii::getAlias('@frontend') . '/migrations',
             ],
         ],

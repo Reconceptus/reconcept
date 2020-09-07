@@ -43,6 +43,9 @@ return [
         'feedback' => [
             'class' => 'modules\feedback\Module',
         ],
+        'position' => [
+            'class' => 'modules\position\Position',
+        ],
     ],
     'components'          => [
         'view'         => [
