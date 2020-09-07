@@ -79,7 +79,7 @@ class PositionRequest extends MActiveRecord
 
     public function getPosition()
     {
-        $result = PositionLog::getPosition($this->query, $this->domain, $this->depth, $this->id);
+        $result = PositionLog::getPosition($this->query, $this->domain, 100, $this->id);
         $this->last_result = $result;
         $this->save();
         return $result;
