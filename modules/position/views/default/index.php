@@ -4,6 +4,7 @@ use modules\position\models\PositionRequest;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel modules\position\models\PositionRequestSearch */
@@ -49,8 +50,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class'    => 'yii\grid\ActionColumn',
                 'template' => '{position}',
                 'buttons'  => [
-                    'position' => function ($url, $model) {
-                        return 'Обновить';
+                    'review' => function ($url, $model) {
+                        return Html::a('<span class="fa fa-handshake-o"></span>',
+                            Url::to(['/position/default/position', 'id' => $model->id]));
                     },
                 ]
             ],
