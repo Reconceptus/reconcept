@@ -118,7 +118,7 @@ class PositionLog extends MActiveRecord
             }
         } else {
             Yii::$app->session->setFlash('warning', 'Ошибка при получении данных');
-            Telegram::send(substr($xml, 0, 4090));
+            Telegram::send($xml);
             return null;
         }
         return 0;
