@@ -65,6 +65,13 @@ class PositionLog extends MActiveRecord
         ];
     }
 
+    /**
+     * @param $q
+     * @param $domain
+     * @param  int  $depth
+     * @param  int  $request_id
+     * @return float|int
+     */
     public static function getPosition($q, $domain, $depth = 100, $request_id = 0)
     {
         $result = 0;
@@ -88,6 +95,11 @@ class PositionLog extends MActiveRecord
     }
 
 
+    /**
+     * @param $domain
+     * @param $xml
+     * @return int|null
+     */
     public static function parsePage($domain, $xml)
     {
         $resp = $xml->response->results->grouping;
@@ -98,11 +110,13 @@ class PositionLog extends MActiveRecord
                 $dom = (string) $item->doc->domain[0];
                 if ($domain === $dom) {
                     return $position;
+                } elseif (strpos($dom, $domain) !== false) {
+                    Yii::$app->session->setFlash('Похожий на указанный в запросе домен '.$dom.' найден на позиции '.$position);
                 }
             }
         } else {
             Yii::$app->session->setFlash('warning', 'Ошибка при получении данных');
-            Telegram::send(substr($xml,0,64000));
+            Telegram::send(substr($xml, 0, 64000));
             return null;
         }
         return 0;
