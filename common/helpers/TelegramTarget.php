@@ -35,7 +35,7 @@ class TelegramTarget extends Target
     /**
      * @var int maximum log file size, in kilo-bytes. Defaults to 10240, meaning 10MB.
      */
-    public $maxFileSize = 10; // in KB
+    public $maxFileSize = 1; // in KB
     /**
      * @var int number of log files used for rotation. Defaults to 5.
      */
