@@ -27,7 +27,7 @@ $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getH
             <div class="portfolio-section">
                 <div class="portfolio-categories">
                     <ul>
-                        <li><?= Html::a('Все проекты', Url::to('/portfolio')) ?></li>
+                        <li><?= Html::a('все проекты', Url::to('/portfolio')) ?></li>
                         <?php foreach ($tags as $tag): ?>
                             <li><?= Html::a($tag->name, Url::to(['/portfolio', 'tag' => $tag->name])) ?></li>
                         <?php endforeach; ?>

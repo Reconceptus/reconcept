@@ -10,7 +10,7 @@ $user = User::getUser();
 ?>
 
 <header class="main-header">
-    <?= Html::a('<span class="logo-mini">Rec</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini">Rec</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->params['front'], ['class' => 'logo', 'target'=>'_blank']) ?>
     <nav class="navbar navbar-static-top" role="navigation">
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
