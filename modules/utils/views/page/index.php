@@ -27,14 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel'  => $searchModel,
         'options'      => ['class' => 'table-responsive'],
         'tableOptions' => ['class' => 'table table-condensed table-striped'],
-        'rowOptions'   => function ($model, $key, $index, $grid) {
-            return [
-                'onclick' => 'window.location = "' . Url::to(['update', 'id' => $model->id]) . '"',
-            ];
-        },
-        'columns'      => [
-            ['class' => 'yii\grid\SerialColumn'],
 
+        'columns'      => [
             [
                 'attribute' => 'id',
                 'options'   => ['style' => 'width:40px'],
@@ -52,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{view} {delete}',
+                    'template' => '{update} {view} {delete}',
                     'buttons'  => [
                         'view' => function ($url, $model) {
                             return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',
