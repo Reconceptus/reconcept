@@ -1,12 +1,16 @@
 <?php
 
+use common\models\User;
 use frontend\widgets\footer\Footer;
 use modules\config\models\Config;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
+/* @var $form ActiveForm */
+/* @var $user User */
+/* @var $user2 User */
 $email = Config::getValue('studio_email');
 $phone = Config::getValue('studio_phone');
 
@@ -48,11 +52,11 @@ foreach ($contacts as $contact) {
                                 <figure>
                                     <div class="rotate-box">
                                         <div class="img">
-                                            <img src="<?= Config::getValue('contact_page_user_1_photo') ?>">
+                                            <img src="<?= $user->image ?>">
                                         </div>
                                     </div>
                                     <figcaption>
-                                        <?= Config::getValue('contact_page_user_1_title') ?>
+                                        <?= $user->position ?>
                                     </figcaption>
                                 </figure>
                             </div>
@@ -60,11 +64,11 @@ foreach ($contacts as $contact) {
                                 <figure>
                                     <div class="rotate-box">
                                         <div class="img">
-                                            <img src="<?= Config::getValue('contact_page_user_2_photo') ?>" alt="Azaliya">
+                                            <img src="<?= $user2->image ?>" alt="Azaliya">
                                         </div>
                                     </div>
                                     <figcaption>
-                                        <?= Config::getValue('contact_page_user_2_title') ?>
+                                        <?= $user2->position ?>
                                     </figcaption>
                                 </figure>
                             </div>

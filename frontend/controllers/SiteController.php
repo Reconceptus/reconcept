@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\components\AuthHandler;
 use common\models\LoginForm;
+use common\models\User;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -84,7 +85,9 @@ class SiteController extends Controller
 
     public function actionContacts()
     {
-        return $this->render('contacts');
+        $user = User::findOne(['email' => 'vesnin_sergey@mail.ru']);
+        $user2 = User::findOne(['email' => 'reconcept@mail.ru']);
+        return $this->render('contacts', ['user' => $user, 'user2' => $user2]);
     }
 
 
@@ -170,7 +173,7 @@ class SiteController extends Controller
     /**
      * Resets password.
      *
-     * @param string $token
+     * @param  string  $token
      * @return mixed
      * @throws BadRequestHttpException
      */
