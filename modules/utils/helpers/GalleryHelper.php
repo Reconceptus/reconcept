@@ -49,14 +49,14 @@ class GalleryHelper
             $galleryObj->save();
         }
         if (!$directory) {
-            $directory = Yii::getAlias('@frontend/web/uploads/temp') . '/' . Yii::$app->session->id . '/' . $gallery . '/';
+            $directory = Yii::getAlias('@frontend/web/uploads/temp').'/'.Yii::$app->session->id.'/'.$gallery.'/';
             if ($directory && is_dir($directory)) {
                 $files = FileHelper::findFiles($directory, ['recursive' => false]);
-                $moveTo = Yii::getAlias('@images/' . $galleryObj->formName() . '/') . $galleryObj->id . '/';
+                $moveTo = Yii::getAlias('@images/'.$galleryObj->formName().'/').$galleryObj->id.'/';
                 foreach ($files as $file) {
                     if ($file && is_file($file)) {
-                        $fileName = time() . '_' . Yii::$app->security->generateRandomString(3) . '.jpg';
-                        $path = $moveTo . '/' . $fileName;
+                        $fileName = time().'_'.Yii::$app->security->generateRandomString(3).'.jpg';
+                        $path = $moveTo.'/'.$fileName;
                         FileHelper::createDirectory($moveTo);
                         if (copy($file, $path)) {
                             $imgModel = new Image();
@@ -64,7 +64,7 @@ class GalleryHelper
                             $imgModel->class_full = UtilsGallery::className();
                             $imgModel->item_id = $galleryObj->id;
                             $imgModel->type = Image::TYPE_IMAGE;
-                            $imgModel->image = '/uploads/images/' . $galleryObj->formName() . '/' . $galleryObj->id . '/' . $fileName;
+                            $imgModel->image = '/uploads/images/'.$galleryObj->formName().'/'.$galleryObj->id.'/'.$fileName;
                             $imgModel->thumb = ImageHelper::crop($imgModel->image, false, null,
                                 Config::getValue('cropPreviewWidth'),
                                 Config::getValue('cropPreviewHeight'), false, false, false);
@@ -128,7 +128,7 @@ class GalleryHelper
                 }
                 $itemsContent = '';
                 foreach ($images as $image) {
-                    $itemsContent .= str_replace('%item%', $image->image, $layout->item);
+                    $itemsContent .= str_replace(['%item%', '%alt%'], [$image->image, $image->alt], $layout->item);
                 }
                 $resultString = str_replace('%items%', $itemsContent, $layout->layout);
             }
@@ -139,7 +139,7 @@ class GalleryHelper
             if ($params) {
                 $paramsArr = explode(',', $params);
                 $paramsArr = ArrayHelper::map($paramsArr, static function ($elem) {
-                    return '#' . trim(ArrayHelper::getValue(explode('=', $elem), 0)) . '#';
+                    return '#'.trim(ArrayHelper::getValue(explode('=', $elem), 0)).'#';
                 }, static function ($elem) {
                     return trim(ArrayHelper::getValue(explode('=', $elem), 1));
                 });
