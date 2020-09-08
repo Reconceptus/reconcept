@@ -50,9 +50,7 @@ $this->registerMetaTag(['name' => 'og:image', 'content' => $model->image_preview
                                         <img src="<?= $author->getAvatar() ?>" alt="<?= $author->fio ?>">
                                     </div>
                                     <figcaption>
-                                        <p><?= $author->fio ?>,</p>
                                         <p><?= $author->position ?></p>
-                                        <p><?= $author->phone ?></p>
                                     </figcaption>
                                 </figure>
                             </aside>
