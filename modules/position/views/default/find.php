@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php if ($position !== null) {
         if ($position === 0) {
-            echo '<h3>Домен '.$domain.' не входит в первые '.($depth*100).' позиций по запросу "'.$q.'"</h3>';
+            echo '<h3>Домен '.$domain.' не входит в первые '.$depth.' позиций по запросу "'.$q.'"</h3>';
         }else{
             echo '<h3>Домен '.$domain.' находится на '.$position.' позиции по запросу "'.$q.'"</h3>';
         }
