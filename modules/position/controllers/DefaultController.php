@@ -114,7 +114,7 @@ class DefaultController extends Controller
         $q = ArrayHelper::getValue($post, 'q');
         $domain = ArrayHelper::getValue($post, 'domain');
         if ($post) {
-            $position = PositionLog::getPosition($q, $domain, 100 * (int) $depth);
+            $position = PositionLog::getPosition($q, $domain, (int) $depth);
         }
         return $this->render('find', ['position' => $position, 'q' => $q, 'depth' => $depth, 'domain' => $domain]);
     }
