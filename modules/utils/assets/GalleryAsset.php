@@ -11,5 +11,6 @@ class GalleryAsset extends AssetBundle
     ];
     public $js = [
         'plugins/imageGallery/index.js',
+        'plugins/specialchars/specialchars.js',
     ];
 }

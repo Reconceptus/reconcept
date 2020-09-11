@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'html', 'formatting', 'unorderedlist', 'orderedlist', 'image', 'link'
                             ],
                             'plugins'                  => [
-                                'imagemanager', 'video'
+                                'imagemanager', 'video', 'specialchars'
                             ],
                         ]
                     ]) ?>
@@ -148,7 +148,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'html', 'formatting', 'unorderedlist', 'orderedlist', 'image', 'link'
                             ],
                             'plugins'                  => [
-                                'imagemanager', 'video', 'imageGallery'
+                                'imagemanager', 'video', 'imageGallery', 'specialchars'
                             ],
                         ],
                     ]) ?>

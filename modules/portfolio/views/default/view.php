@@ -47,7 +47,7 @@ YiiAsset::register($this);
                         'indent', 'link', 'alignment', 'horizontalrule'],
                     'plugins'                  => [
                         'counter', 'definedlinks', 'filemanager', 'fontcolor', 'fontfamily', 'fontsize', 'fullscreen',
-                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager',
+                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'specialchars'
                     ],
                 ]]) ?>
 

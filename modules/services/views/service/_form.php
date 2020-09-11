@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $model->isNewRecord ? 'Добавить' : 'И�
                         'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule'],
                     'plugins'                  => [
                         'counter', 'definedlinks', 'filemanager', 'fontcolor', 'fontfamily', 'fontsize', 'fullscreen',
-                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video'
+                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video', 'specialchars'
                     ],
                 ]]) ?>
 

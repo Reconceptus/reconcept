@@ -81,7 +81,7 @@ use yii\widgets\ActiveForm;
                         'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule'],
                     'plugins'                  => [
                         'counter', 'definedlinks', 'filemanager', 'fontcolor', 'fontfamily', 'fontsize', 'fullscreen',
-                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video', 'imageGallery'
+                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video', 'imageGallery', 'specialchars'
                     ],
                 ]]) ?>
 
