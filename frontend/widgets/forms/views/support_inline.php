@@ -123,6 +123,7 @@ $('.contacts-form form').validate({
     },
     errorPlacement: $.noop,
     submitHandler:function () {
+        ym(5609182,'reachGoal','targetContactsMail')
         var form = $('.contacts-form form');
         var button = form.find('.submit');
         button.hide();
