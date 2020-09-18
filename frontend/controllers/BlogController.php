@@ -10,6 +10,7 @@ use modules\blog\models\Comment;
 use modules\blog\models\Post;
 use modules\blog\models\Tag;
 use modules\config\models\Config;
+use modules\portfolio\models\Portfolio;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
@@ -70,9 +71,8 @@ class BlogController extends Controller
                 ->andWhere(['or', ['like', 'name', $q], ['like', 'intro', $q], ['like', 'text', $q]])->exists();
             if (!$result) {
                 return ['status' => 'success', 'result' => 0];
-            } else {
-                return $this->redirect(['/blog/search', 'q' => $q]);
             }
+            return $this->redirect(['/blog/search', 'q' => $q]);
         }
         $q = \Yii::$app->request->get('q');
         if (!$q) {
@@ -112,8 +112,12 @@ class BlogController extends Controller
      */
     public function actionView()
     {
-        $model = Post::findOne(['slug' => \Yii::$app->request->get('slug')]);
-        if (!$model || $model->status !== Post::STATUS_ACTIVE) {
+        $query = Post::find()->where(['slug' => \Yii::$app->request->get('slug')]);
+        if (!Yii::$app->user->can('admin')) {
+            $query->andWhere(['status' => Post::STATUS_ACTIVE]);
+        }
+        $model = $query->one();
+        if (!$model) {
             throw new NotFoundHttpException();
         }
         $model->views = ++$model->views;
@@ -156,7 +160,7 @@ class BlogController extends Controller
             $email = Html::encode($post['mail']);
             $accept = !empty($post['approve']) ? 1 : 0;
             if ($accept) {
-                $parent = Comment::findOne(['id' => (int)($post['comment_id'])]);
+                $parent = Comment::findOne(['id' => (int) ($post['comment_id'])]);
                 if ($parent) {
                     if ($newComment = Comment::add($parent, $name, $text, $email)) {
                         $mail = Yii::$app->mailer->compose('new-comment', ['model' => $newComment]);

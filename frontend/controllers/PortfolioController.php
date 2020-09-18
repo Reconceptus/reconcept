@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use modules\portfolio\models\Portfolio;
 use modules\portfolio\models\PortfolioTag;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -52,8 +53,12 @@ class PortfolioController extends Controller
         if ($pos === false) {
             return $this->redirect('/portfolio/' . $slug);
         }
-        $model = Portfolio::findOne(['slug' => $slug]);
-        if (!$model || $model->status !== Portfolio::STATUS_ACTIVE) {
+        $query = Portfolio::find()->where(['slug' => $slug]);
+        if (!Yii::$app->user->can('admin')) {
+            $query->andWhere(['status' => Portfolio::STATUS_ACTIVE]);
+        }
+        $model = $query->one();
+        if (!$model) {
             throw new NotFoundHttpException();
         }
         $model->views = ++$model->views;

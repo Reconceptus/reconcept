@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adm
- * Date: 30.01.2019
- * Time: 09:39
- */
-
 use common\models\Html;
 use frontend\widgets\forms\Forms;
 use frontend\widgets\portfolioRelated\PortfolioRelated;
@@ -15,7 +8,6 @@ use modules\config\models\Config;
 use modules\portfolio\models\Portfolio;
 use modules\utils\helpers\ContentHelper;
 use modules\utils\helpers\GalleryHelper;
-use yii\helpers\Url;
 
 /* @var $model Portfolio */
 
