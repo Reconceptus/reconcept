@@ -76,14 +76,17 @@ use yii\widgets\ActiveForm;
                     'imageUpload'              => Url::to(['/file/editor-upload']),
                     'imageUploadPath'          => Url::to(['/file/upload-gallery']),
                     'imageUploadErrorCallback' => new JsExpression('function(json){ alert(json.error); }'),
+                    'fileUploadErrorCallback' => new JsExpression('function(json){ alert(json.error); }'),
                     'buttons'                  => [
                         'html', 'formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist', 'outdent',
-                        'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule'],
+                        'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule'
+                    ],
                     'plugins'                  => [
                         'counter', 'definedlinks', 'filemanager', 'fontcolor', 'fontfamily', 'fontsize', 'fullscreen',
                         'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video', 'imageGallery', 'specialchars'
                     ],
-                ]]) ?>
+                ]
+            ]) ?>
 
             <?= $form->field($model, 'to_main')->checkbox() ?>
 
@@ -104,7 +107,7 @@ use yii\widgets\ActiveForm;
     <div class="buttons-panel">
         <?= Html::a('Отмена', Url::to('/blog/post'), ['class' => 'btn btn-danger']) ?>
         <?php if (!$model->isNewRecord): ?>
-            <?= Html::a('На сайте', Url::to(Yii::$app->params['front'] . '/blog/' . $model->slug), ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
+            <?= Html::a('На сайте', Url::to(Yii::$app->params['front'].'/blog/'.$model->slug), ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
         <?php endif; ?>
     </div>
 </div>

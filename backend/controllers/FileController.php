@@ -36,7 +36,7 @@ class FileController extends Controller
                     [
                         'actions' => [
                             'delete-model-image', 'delete-image', 'delete-single-image', 'upload-image', 'sort-image', 'sort-file', 'delete-file',
-                            'set-alt', 'process', 'import', 'editor-upload', 'upload', 'upload-gallery'
+                            'set-alt', 'process', 'import', 'editor-upload', 'editor-file', 'get-file', 'upload', 'upload-gallery', 'upload-file'
                         ],
                         'allow'   => true,
                         'roles'   => ['adminPanel'],
@@ -59,7 +59,6 @@ class FileController extends Controller
      */
     public function actions(): array
     {
-
         $maxWidth = Config::getValue('maxWidth');
         $maxHeight = Config::getValue('maxHeight');
         if (!$maxWidth) {
@@ -79,7 +78,22 @@ class FileController extends Controller
                     'maxHeight' => $maxHeight
                 ],
             ],
-            ''
+            'editor-file'   => [
+                'class'            => 'vova07\imperavi\actions\UploadFileAction',
+                'url'              => '/uploads/files/ed',
+                'path'             => '@frontend/web/uploads/files/ed',
+                'uploadOnlyImage'  => false,
+                'translit'         => true,
+                'validatorOptions' => [
+
+                ]
+            ],
+            'get-file'      => [
+                'class'   => 'vova07\imperavi\actions\GetFilesAction',
+                'url'     => '/uploads/files/ed',
+                'path'    => '@frontend/web/uploads/files/ed',
+                'options' => ['only' => ['*.txt', '*.md', '*.pdf']],
+            ]
         ];
     }
 
@@ -175,7 +189,7 @@ class FileController extends Controller
         $post = Yii::$app->request->post();
         if (!empty($post['key'])) {
             $type = ArrayHelper::getValue($post, 'type');
-            $model = Image::findOne(['id' => ArrayHelper::getValue($post, 'key'), 'type' => $type??Image::TYPE_IMAGE]);
+            $model = Image::findOne(['id' => ArrayHelper::getValue($post, 'key'), 'type' => $type ?? Image::TYPE_IMAGE]);
             if ($model) {
                 FileHelper::delete($model->image);
                 FileHelper::delete($model->thumb);

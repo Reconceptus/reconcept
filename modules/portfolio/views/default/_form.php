@@ -56,6 +56,8 @@ use yii\widgets\ActiveForm;
                     'minHeight'                => 200,
                     'imageUpload'              => Url::to(['/file/editor-upload']),
                     'imageUploadPath'          => Url::to(['/file/upload-gallery']),
+                    'fileUpload'               => Url::to(['/file/editor-file']),
+                    'fileManagerJson'          => Url::to(['/file/get-file']),
                     'imageUploadErrorCallback' => new JsExpression('function(json){ alert(json.error); }'),
                     'buttons'                  => [
                         'html', 'formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist', 'outdent',
