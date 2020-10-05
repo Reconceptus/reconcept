@@ -21,7 +21,7 @@ class PostPreview extends Widget
         if (!$this->model) {
             return '';
         }
-        $content = $this->render($this->viewName, ['model' => $this->model, 'favorites' => $this->favorites]);
+        $content = $this->render($this->viewName, ['model' => $this->model, 'favorites' => is_array($this->favorites)?$this->favorites:[]]);
         return $content;
     }
 }

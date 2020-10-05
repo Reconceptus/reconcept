@@ -1,7 +1,6 @@
 <?php
 
 use modules\config\models\Config;
-use yii\helpers\Url;
 
 $this->title = Config::getValue('mainPageTitle');
 $this->registerMetaTag(['name' => 'description', 'content' => Config::getValue('mainPageDescription')]);
