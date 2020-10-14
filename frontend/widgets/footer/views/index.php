@@ -34,6 +34,7 @@ use yii\helpers\Url;
                 <div class="footer-section--part">
                     <header><h5 class="title">Студия</h5></header>
                     <ul class="menu">
+                        <li><a href="/about">О нас</a></li>
                         <li><a href="/blog">Блог</a></li>
                         <li><a href="/portfolio">Портфолио</a></li>
                         <li><a href="/contacts">Контакты</a></li>
