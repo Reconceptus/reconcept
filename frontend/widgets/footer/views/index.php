@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: venodon
- * Date: 24.01.2019
- * Time: 12:36
- */
 
 use frontend\widgets\footerPortfolio\FooterPortfolio;
 use modules\blog\models\BlogCategory;
