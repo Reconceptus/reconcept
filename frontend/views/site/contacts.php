@@ -46,7 +46,7 @@ foreach ($contacts as $contact) {
                             <div class="text">
                                 Наши страницы <?= implode(', ', $cres) ?>.
                             </div>
-                            <div class="text">
+                            <div class="text" style="padding-top: 10px">
                                 <p>ИП Аманова АС</p>
                                 <p>ОГРНИП 3123460052200029</p>
                                 <p>Безналичный рассчет, рубли, евро.</p>
