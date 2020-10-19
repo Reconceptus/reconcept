@@ -60,6 +60,7 @@ return [
                 'shop/<category:[a-zA-Z0-9\_\-]+>/<slug:[a-zA-Z0-9\_\-]+>' => 'shop/view',
                 'blog'                                                     => 'blog',
                 'blog/add-favorite'                                        => 'blog/add-favorite',
+                'blog/hash/<hash:[a-zA-Zа-яА-Я0-9\_\-]+>'                  => 'blog/hash',
                 'blog/add-new-js-ajax-comment'                             => 'blog/add-comment',
                 'blog/search'                                              => 'blog/search',
                 'blog/index'                                               => 'blog/index',

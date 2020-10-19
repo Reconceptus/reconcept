@@ -4,6 +4,7 @@ namespace modules\blog\controllers;
 
 use common\helpers\Html;
 use common\helpers\ImageHelper;
+use modules\blog\models\HashPost;
 use modules\blog\models\Post;
 use modules\blog\models\PostSearch;
 use modules\blog\models\Tag;
@@ -166,6 +167,7 @@ class PostController extends Controller
             $tags = $post['Post'] && $post['Post']['tags'] ? $post['Post']['tags'] : [];
             $model->updateTags($tags);
             if ($model->save()) {
+                $model->findHashTags();
                 GalleryHelper::processBlocks($model->text);
                 Yii::$app->cache->delete('mainblog');
                 Yii::$app->session->setFlash('success', 'Post created successfully');

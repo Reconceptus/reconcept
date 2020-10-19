@@ -7,10 +7,10 @@ use frontend\widgets\comments\Comments;
 use modules\blog\models\BlogCategory;
 use modules\blog\models\BlogFavorite;
 use modules\blog\models\Comment;
+use modules\blog\models\Hashtag;
 use modules\blog\models\Post;
 use modules\blog\models\Tag;
 use modules\config\models\Config;
-use modules\portfolio\models\Portfolio;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
@@ -32,9 +32,9 @@ class BlogController extends Controller
     public function actionIndex()
     {
         $slug = \Yii::$app->request->get('slug');
-        $query = Post::find()->with('tags')->joinWith('category')->where([Post::tableName().'.status' => Post::STATUS_ACTIVE]);
+        $query = Post::find()->with('tags')->joinWith('category')->where([Post::tableName() . '.status' => Post::STATUS_ACTIVE]);
         if ($slug) {
-            $query->andWhere([BlogCategory::tableName().'.slug' => $slug]);
+            $query->andWhere([BlogCategory::tableName() . '.slug' => $slug]);
         }
         $dataProvider = new ActiveDataProvider([
             'query'      => $query,
@@ -56,6 +56,20 @@ class BlogController extends Controller
             'slug'         => $slug,
             'favorites'    => BlogFavorite::getFavoritesCookie()
         ]);
+    }
+
+    public function actionHash()
+    {
+        $hashName = \Yii::$app->request->get('hash');
+        $hash = Hashtag::findOne(['name' => $hashName]);
+        if (!$hash) {
+            throw new NotFoundHttpException();
+        }
+        $query = Post::find()->alias('p')->innerJoinWith('hashtags')->where(['p.status' => Post::STATUS_ACTIVE]);
+        $provider = new ActiveDataProvider([
+            'query' => $query
+        ]);
+        return $this->render('hash', ['model' => $hash, 'favorites' => BlogFavorite::getFavoritesCookie(), 'provider' => $provider]);
     }
 
     /**
@@ -160,17 +174,17 @@ class BlogController extends Controller
             $email = Html::encode($post['mail']);
             $accept = !empty($post['approve']) ? 1 : 0;
             if ($accept) {
-                $parent = Comment::findOne(['id' => (int) ($post['comment_id'])]);
+                $parent = Comment::findOne(['id' => (int)($post['comment_id'])]);
                 if ($parent) {
                     if ($newComment = Comment::add($parent, $name, $text, $email)) {
                         $mail = Yii::$app->mailer->compose('new-comment', ['model' => $newComment]);
                         $mail->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name]);
                         if ($parent->depth > 0) {
                             $mail->setTo($parent->email);
-                            $mail->setSubject('Новый комментарий на сайте '.Yii::$app->request->getHostInfo());
+                            $mail->setSubject('Новый комментарий на сайте ' . Yii::$app->request->getHostInfo());
                             $mail->send();
                         }
-                        Telegram::send('Новый комментарий на сайте '.Yii::$app->request->getHostInfo().': '.Yii::$app->params['front'].'/blog/'.$newComment->post->slug);
+                        Telegram::send('Новый комментарий на сайте ' . Yii::$app->request->getHostInfo() . ': ' . Yii::$app->params['front'] . '/blog/' . $newComment->post->slug);
                         return [
                             'status' => 'success',
                             'html'   => Config::getValue('pre_moderate_comments') ? '' : Comments::renderComment($newComment)

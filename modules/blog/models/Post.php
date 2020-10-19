@@ -212,6 +212,22 @@ class Post extends MActiveRecord
     }
 
     /**
+     * @return ActiveQuery
+     */
+    public function getHashPosts()
+    {
+        return $this->hasMany(HashPost::className(), ['post_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getHashtags()
+    {
+        return $this->hasMany(Hashtag::className(), ['id' => 'hashtag_id'])->via('hashPosts');
+    }
+
+    /**
      * @param $tags
      */
     public function updateTags($tags)
@@ -266,5 +282,33 @@ class Post extends MActiveRecord
         $images = UploadedFile::getInstancesByName('images');
         Image::addImages($this, $images, Image::TYPE_IMAGE, $guid);
         return count($images);
+    }
+
+    /**
+     * @return string|string[]|null
+     */
+    public function getHashText()
+    {
+        $pattern = "/\#(\w+)/ui";;
+        return preg_replace($pattern, '<a href="/blog/hash/$1" target="_blank">#$1</a>', $this->text);
+    }
+
+    public function findHashTags()
+    {
+        $pattern = "/\#(\w+)/ui";;
+        $matchesTags = [];
+        preg_match_all($pattern, $this->text, $matchesTags);
+        $tags = array_unique(ArrayHelper::getValue($matchesTags, 0));
+        HashPost::deleteAll(['post_id' => $this->id]);
+        foreach ($tags as $tagName) {
+            $name = trim($tagName,'#');
+            $tag = Hashtag::findOne(['name' => $name]);
+            if (!$tag) {
+                $tag = new Hashtag(['name' => $name]);
+                $tag->save();
+            }
+            $hashPost = new HashPost(['post_id' => $this->id, 'hashtag_id' => $tag->id]);
+            $hashPost->save();
+        }
     }
 }

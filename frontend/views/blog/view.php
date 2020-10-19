@@ -68,7 +68,7 @@ $this->registerMetaTag(['name' => 'og:image', 'content' => $model->image_preview
                             <?= Share::widget() ?>
                             <div class="text-box--main">
                                 <div class="text-box">
-                                    <?= ContentHelper::parseLink(Config::getValue('insert_galleries') ? ContentHelper::parseBlock(GalleryHelper::parseGallery($model->text)) : $model->text) ?>
+                                    <?= ContentHelper::parseLink(Config::getValue('insert_galleries') ? ContentHelper::parseBlock(GalleryHelper::parseGallery($model->getHashText())) : $model->getHashText()) ?>
                                 </div>
                             </div>
                         </div>
