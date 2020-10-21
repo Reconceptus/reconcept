@@ -54,6 +54,7 @@ $columns = [
         'filter'        => [0 => 'Отключен', 1 => 'Активен'],
     ],
     'views',
+    'sort',
     [
         'class'    => 'yii\grid\ActionColumn',
         'template' => '{update}',
