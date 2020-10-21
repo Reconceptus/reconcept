@@ -43,7 +43,8 @@ class BlogController extends Controller
             ],
             'sort'       => [
                 'defaultOrder' => [
-                    'created_at' => SORT_DESC
+                    'sort' => SORT_DESC,
+                    'id'   => SORT_DESC
                 ]
             ],
         ]);
