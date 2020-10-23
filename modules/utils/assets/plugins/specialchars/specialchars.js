@@ -26,9 +26,30 @@ $(function () {
                     const buttonEur = this.button.add('8364', '&#8364;');
                     this.button.setAwesome('8364', 'fa-euro');
                     this.button.addCallback(buttonEur, this.specialchars.insertSign);
+
+                    const buttonForm = this.button.add('form', 'Форма');
+                    this.button.setAwesome('form', 'fa-list');
+                    this.button.addCallback(buttonForm, this.specialchars.insertForm);
+
+                    const buttonWapp = this.button.add('wapp', 'Whatsapp');
+                    this.button.setAwesome('wapp', 'fa-whatsapp ');
+                    this.button.addCallback(buttonWapp, this.specialchars.insertWapp);
+
+                    const buttonHash = this.button.add('hash', 'Хэштег');
+                    this.button.setAwesome('hash', 'fa-hashtag');
+                    this.button.addCallback(buttonHash, this.specialchars.insertHashtag);
                 },
                 insertChar: function (text) {
                     this.insert.html('&' + text + ';');
+                },
+                insertHashtag: function () {
+                    this.insert.html('#HASHTAG#');
+                },
+                insertForm: function () {
+                    this.insert.html('[FORM]');
+                },
+                insertWapp: function () {
+                    this.insert.html('[WAPP]');
                 },
                 insertSign: function (text) {
                     this.insert.html('&#' + text + ';');

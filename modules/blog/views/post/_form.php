@@ -78,12 +78,11 @@ use yii\widgets\ActiveForm;
                     'imageUploadErrorCallback' => new JsExpression('function(json){ alert(json.error); }'),
                     'fileUploadErrorCallback' => new JsExpression('function(json){ alert(json.error); }'),
                     'buttons'                  => [
-                        'html', 'formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist', 'outdent',
-                        'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule'
+                        'html', 'formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist', 'image', 'file', 'link', 'alignment', 'horizontalrule'
                     ],
                     'plugins'                  => [
                         'counter', 'definedlinks', 'filemanager', 'fontcolor', 'fontfamily', 'fontsize', 'fullscreen',
-                        'limiter', 'table', 'textdirection', 'textexpander', 'imagemanager', 'video', 'imageGallery', 'specialchars'
+                        'limiter', 'table', 'textexpander', 'imagemanager', 'video', 'imageGallery', 'specialchars'
                     ],
                 ]
             ]) ?>

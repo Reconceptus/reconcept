@@ -289,19 +289,19 @@ class Post extends MActiveRecord
      */
     public function getHashText()
     {
-        $pattern = "/\*(\w+)\s/ui";;
+        $pattern = "/\#(\w+)\#/ui";;
         return preg_replace($pattern, '<a href="/blog/hash/$1" target="_blank">#$1</a> ', $this->text);
     }
 
     public function findHashTags()
     {
-        $pattern = "/\*(\w+)\s/ui";;
+        $pattern = "/\#(\w+)\#/ui";;
         $matchesTags = [];
         preg_match_all($pattern, $this->text, $matchesTags);
         $tags = array_unique(ArrayHelper::getValue($matchesTags, 0));
         HashPost::deleteAll(['post_id' => $this->id]);
         foreach ($tags as $tagName) {
-            $name = trim($tagName,'*');
+            $name = trim($tagName,'#');
             $tag = Hashtag::findOne(['name' => $name]);
             if (!$tag) {
                 $tag = new Hashtag(['name' => $name]);
