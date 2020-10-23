@@ -289,13 +289,13 @@ class Post extends MActiveRecord
      */
     public function getHashText()
     {
-        $pattern = "/\*(\w+)/ui";;
+        $pattern = "/\*(\w+)\s/ui";;
         return preg_replace($pattern, '<a href="/blog/hash/$1" target="_blank">#$1</a>', $this->text);
     }
 
     public function findHashTags()
     {
-        $pattern = "/\*(\w+)/ui";;
+        $pattern = "/\*(\w+)\s/ui";;
         $matchesTags = [];
         preg_match_all($pattern, $this->text, $matchesTags);
         $tags = array_unique(ArrayHelper::getValue($matchesTags, 0));
