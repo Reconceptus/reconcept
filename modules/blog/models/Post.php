@@ -290,7 +290,7 @@ class Post extends MActiveRecord
     public function getHashText()
     {
         $pattern = "/\*(\w+)\s/ui";;
-        return preg_replace($pattern, '<a href="/blog/hash/$1" target="_blank">#$1</a>', $this->text);
+        return preg_replace($pattern, '<a href="/blog/hash/$1" target="_blank">#$1</a> ', $this->text);
     }
 
     public function findHashTags()
