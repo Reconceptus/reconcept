@@ -112,18 +112,12 @@ class FeedbackController extends Controller
         $status = 'fail';
         $post = Yii::$app->request->post();
         if (array_key_exists('approve', $post) && $post['approve']) {
-            $contact = Html::eTake($post['email']);
+            $contact = Html::eTake($post['phone']);
             $url = Html::eTake($post['url']);
-            $feedback = new Support(['url' => $url, 'email' => $contact]);
+            $feedback = new Support(['url' => $url, 'phone' => $contact]);
             if ($feedback->save()) {
                 $status = 'success';
             }
-
-            $mail = Yii::$app->mailer->compose('thanks', ['contact' => $contact]);
-            $mail->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name]);
-            $mail->setTo($contact);
-            $mail->setSubject('Спасибо за обращение');
-            $mail->send();
             Telegram::send('Новое обращение из статьи ' . $url);
         }
         if (Yii::$app->request->isAjax) {
