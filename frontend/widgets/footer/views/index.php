@@ -22,6 +22,7 @@ use yii\helpers\Url;
                         <?php endforeach; ?>
                     </ul>
                 </div>
+                <a name="services"></a>
             </section>
             <?= FooterPortfolio::widget() ?>
             <section class="footer-section">

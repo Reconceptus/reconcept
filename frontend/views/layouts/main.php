@@ -123,7 +123,7 @@ AppAsset::register($this);
                             <!--                            <li><a href="advertising.html" class="">Реклама+</a></li>-->
                             <!--                            <li><a href="branding.html" class="">Брендирование+</a></li>-->
                             <li><?= Html::a('Блог', Url::to('/blog')) ?></li>
-                            <!--                            <li><a href="/site/about" class="">Мы</a></li>-->
+                                                        <li><a href="#services" class="">Услуги</a></li>
                             <li><a href="/contacts" class="">Контакты</a></li>
                             <?php if (Yii::$app->user->can('adminPanel')): ?>
                                 <li><?= Html::a('Админка', Url::to(Yii::$app->params['back'])) ?></li>

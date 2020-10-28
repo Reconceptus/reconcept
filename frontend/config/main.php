@@ -68,7 +68,6 @@ return [
                 'blog/favorites'                                           => 'blog/favorites',
                 'blog/<slug:[a-zA-Z0-9\_\-]+>'                             => 'blog/view',
                 'site/<slug:[a-zA-Z0-9\_\-]+>'                             => 'site/page',
-                'services'                         => 'services/index',
                 'services/<slug:[a-zA-Z0-9\_\-]+>'                         => 'services/view',
                 'portfolio/index'                                          => 'portfolio/index',
                 'portfolio'                                                => 'portfolio/index',
