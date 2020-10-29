@@ -15,7 +15,7 @@ $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->request->getH
         <?= \frontend\widgets\mainPortfolio\MainPortfolio::widget() ?>
 
         <?= \frontend\widgets\mainText\MainText::widget() ?>
-
+        <a name="services"></a>
         <?= \frontend\widgets\mainServices\MainServices::widget() ?>
 
         <?= \frontend\widgets\mainBlog\MainBlog::widget() ?>
