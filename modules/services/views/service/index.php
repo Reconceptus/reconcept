@@ -63,6 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'        => [0 => 'Отключен', 1 => 'Активен'],
             ],
             'views',
+
             [
                 'class'    => 'yii\grid\ActionColumn',
                 'template' => '{view} {delete}',
