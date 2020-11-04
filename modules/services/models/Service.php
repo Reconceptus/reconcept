@@ -21,6 +21,7 @@ use yii\helpers\Url;
  * @property int $to_footer
  * @property int $to_menu
  * @property int $status
+ * @property int $views
  * @property string $seo_title
  * @property string $seo_description
  * @property ServiceCategory $category
@@ -112,6 +113,7 @@ class Service extends ActiveRecord
             'to_footer'       => 'Показывать в футере',
             'to_menu'         => 'Показывать в меню',
             'status'          => 'Статус',
+            'views'           => 'Просмотры',
             'seo_title'       => 'Seo Title',
             'seo_description' => 'Seo Description',
         ];

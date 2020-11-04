@@ -45,6 +45,8 @@ class ServicesController extends Controller
         if (!$model || $model->status != Service::STATUS_ACTIVE) {
             throw new NotFoundHttpException();
         }
+        $model->views++;
+        $model->save();
         return $this->render('view', ['model' => $model]);
     }
 }
