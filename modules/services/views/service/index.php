@@ -48,13 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'    => \modules\services\models\ServiceCategory::getList()
             ],
             [
-                'attribute' => 'text',
-                'format'    => 'html',
-                'value'     => function ($model) {
-                    return mb_substr($model->text, 0, 60);
-                },
-            ],
-            [
                 'attribute'     => 'status',
                 'headerOptions' => ['width' => 100],
                 'value'         => function ($model) {
